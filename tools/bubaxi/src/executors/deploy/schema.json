@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "type": "object",
+  "cli": "nx",
+  "properties": {
+    "gcpProject": {
+      "type": "string",
+      "description": "The GCP project ID"
+    },
+    "source": {
+      "type": "string",
+      "description": "The docker hub prefix. Final source will be {source}/{project}_{service}"
+    },
+    "target": {
+      "type": "string",
+      "description": "The grc prefix. Final target will be {target}/{project}/{service}"
+    },
+    "version": {
+      "type": "string",
+      "description": "The image tag version. Defaults to 'latest'"
+    },
+    "serviceAcc": {
+      "type": "string",
+      "description": "The GCP service account name"
+    },
+    "region": {
+      "type": "string",
+      "description": "The GCP region to which the service will be deployed"
+    }
+  }
+}

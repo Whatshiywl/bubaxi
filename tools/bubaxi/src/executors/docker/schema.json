@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "type": "object",
+  "cli": "nx",
+  "properties": {
+    "gcpProject": {
+      "type": "string",
+      "description": "The GCP project ID"
+    },
+    "context": {
+      "type": "string",
+      "description": "The docker build context. Defaults to the build outputPath"
+    },
+    "dockerfile": {
+      "type": "string",
+      "description": "The dockerfile to be used. Defaults to {appRoot}/Dockerfile"
+    },
+    "repo": {
+      "type": "string",
+      "description": "The docker repo prefix. Final repo will be {repo}/{project}_{service}"
+    },
+    "version": {
+      "type": "string",
+      "description": "The image tag version. Defaults to 'latest'"
+    }
+  }
+}
