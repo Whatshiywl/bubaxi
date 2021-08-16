@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'bubaxi-root',
@@ -13,6 +14,6 @@ export class AppComponent {
   message$!: Observable<string>;
 
   constructor(client: HttpClient) {
-    this.message$ = client.get<{ message: string }>('http://localhost:3000/api').pipe(map(res => res.message));
+    this.message$ = client.get<{ message: string }>(environment.api).pipe(map(res => res.message));
   }
 }
