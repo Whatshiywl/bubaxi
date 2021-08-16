@@ -18,7 +18,7 @@ export default async function dockerExecutor(
   const gcpProjectID = process.env.GCP_PROJECT || options.gcpProject;
   const project = workspace.projects[projectName];
 
-  const buildContext = options.context || project?.targets.build?.options?.outputPath || `dist/apps/${projectName}`;
+  const buildPath = options.context || project?.targets.build?.options?.outputPath || `dist/apps/${projectName}`;
   const dockerfile = options.dockerfile || `${project ? `${project.root}/Dockerfile` : `apps/${projectName}/Dockerfile`}`;
 
   const repoPrefix = process.env.DOCKER_HUB_REMOTE_REPO || options.repo;
@@ -29,7 +29,9 @@ export default async function dockerExecutor(
   const latest = `${repo}:latest`;
 
   try {
-    await docker.build(buildContext, dockerfile, image);
+    await docker.build(dockerfile, image, {
+      BUILD_PATH: buildPath
+    });
     await docker.tag(image, latest);
     await docker.push(image);
     await docker.push(latest);

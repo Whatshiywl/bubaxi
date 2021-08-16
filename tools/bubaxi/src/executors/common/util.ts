@@ -27,9 +27,14 @@ export function wrappedSpawn(cmd: string, args?: readonly string[]) {
 }
 
 export const docker = {
-  build(context: string, dockerfile: string, tag: string) {
+  build(dockerfile: string, tag: string, args: { [key: string]: string } = { }) {
+    const buildArgs = [ ];
+    Object.keys(args).forEach(key => {
+      buildArgs.push(`--build-arg`);
+      buildArgs.push(`${key}=${args[key]}`);
+    });
     return wrappedSpawn(
-      `docker`, [ 'build', context, '-f', dockerfile, '-t', tag ]
+      `docker`, [ 'build', '.', '-f', dockerfile, '-t', tag, ...buildArgs ]
     );
   },
 
