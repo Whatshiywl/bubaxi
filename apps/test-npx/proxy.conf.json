@@ -1,0 +1,20 @@
+{
+  "/api": {
+    "target": "https://gcp.teste-api/test-npx",
+    "changeOrigin": true,
+    "secure": false,
+    "router": {
+      "localhost:8080": "http://localhost:3000/test-npx",
+      "localhost:3000": "http://localhost:3080"
+    }
+  },
+  "/": {
+    "target": "https://gcp.teste-npx/test-npx",
+    "changeOrigin": true,
+    "secure": false,
+    "router": {
+      "localhost:8080": "http://localhost:3000/test-npx",
+      "localhost:3000": "http://localhost:8080/"
+    }
+  }
+}
