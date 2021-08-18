@@ -41,8 +41,9 @@ for (const project of projects) {
       }
       const targetURL = new URL(target);
       const basePath = targetURL.pathname;
-      const newRoute = join(basePath, route);
-      const newTarget = join(targetURL.origin, route);
+      const pathAppend = route === '/' ? '' : route;
+      const newRoute = join(basePath, pathAppend);
+      const newTarget = join(targetURL.origin, pathAppend);
       const rewrite = `^${basePath}`;
       const newConf = {
         target: newTarget,
