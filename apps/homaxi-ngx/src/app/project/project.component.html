@@ -1,0 +1,11 @@
+<div *ngIf="project" class="project-wrapper">
+  <mat-card (click)="onProjectClick()">
+    <mat-card-header>
+      <mat-card-title>{{project.name}}</mat-card-title>
+    </mat-card-header>
+    <img mat-card-image *ngIf="project.img" [src]="project.img" alt="">
+    <mat-card-content *ngIf="project.description">
+      <p>{{project.description}}</p>
+    </mat-card-content>
+  </mat-card>
+</div>

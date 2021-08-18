@@ -1,0 +1,27 @@
+<div class="app-wrapper">
+  <mat-toolbar color="primary">
+    <a href="/">Bubaxi</a>
+    <span class="toolbar-spacer"></span>
+    <button mat-icon-button
+    (click)="drawer.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+  </mat-toolbar>
+  <mat-drawer-container class="drawer-container">
+    <mat-drawer class="drawer"
+    #drawer mode="over" position="end">
+      <bubaxi-homaxi-auth></bubaxi-homaxi-auth>
+    </mat-drawer>
+    <div class="projects-wrapper">
+      <mat-grid-list
+      [cols]="gridCols"
+      [rowHeight]="gridCols === 1 ? '300px' : '1:1'"
+      gutterSize="20px"
+      (window:resize)="setGridCols()">
+        <mat-grid-tile *ngFor="let project of projects">
+          <bubaxi-homaxi-project [project]="project"></bubaxi-homaxi-project>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+  </mat-drawer-container>
+</div>

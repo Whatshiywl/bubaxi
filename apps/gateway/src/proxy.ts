@@ -1,7 +1,7 @@
 import { environment } from './environments/environment';
 import { Options } from "http-proxy-middleware";
 
-const logLevel = environment.production ? 'info' : 'debug';
+const logLevel = environment.production ? 'info' : 'info';
 
 const proxy: { [path: string]: Options } = { };
 
@@ -21,5 +21,8 @@ function addProxy(basePath: string, path: string, target: string, devTarget: str
 
 addProxy('/test-npx', '/api', 'https://test-api-2bfaoux6cq-uc.a.run.app/', 'http://localhost:3080/');
 addProxy('/test-npx', '',     'https://test-npx-2bfaoux6cq-uc.a.run.app/', 'http://localhost:8080/');
+
+addProxy('/api',  '', 'https://homaxi-api-2bfaoux6cq-uc.a.run.app/', 'http://localhost:3010/');
+addProxy('/',     '', 'https://homaxi-ngx-2bfaoux6cq-uc.a.run.app/', 'http://localhost:8010/');
 
 export default proxy;
