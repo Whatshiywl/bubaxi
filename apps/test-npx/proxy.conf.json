@@ -1,6 +1,6 @@
 {
   "/api": {
-    "target": "https://gcp.teste-api/test-npx",
+    "target": "https://test-api-2bfaoux6cq-uc.a.run.app/test-npx",
     "changeOrigin": true,
     "secure": false,
     "router": {
@@ -9,7 +9,7 @@
     }
   },
   "/": {
-    "target": "https://gcp.teste-npx/test-npx",
+    "target": "https://test-npx-2bfaoux6cq-uc.a.run.app/test-npx",
     "changeOrigin": true,
     "secure": false,
     "router": {
