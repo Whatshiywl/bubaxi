@@ -5,7 +5,8 @@ export interface DockerExecutorOptions {
   gcpProject: string;
   context?: string;
   dockerfile?: string;
-  repo: string;
+  remoteHost: string;
+  gcpHost: string;
   version: string;
 }
 
@@ -21,20 +22,32 @@ export default async function dockerExecutor(
   const buildPath = options.context || project?.targets.build?.options?.outputPath || `dist/apps/${projectName}`;
   const dockerfile = options.dockerfile || `${project ? `${project.root}/Dockerfile` : `apps/${projectName}/Dockerfile`}`;
 
-  const repoPrefix = process.env.DOCKER_HUB_REMOTE_REPO || options.repo;
-  const repo = `${repoPrefix ? `${repoPrefix}/` : ''}${gcpProjectID}_${projectName}`;
+  const remotePrefix = process.env.DOCKER_HUB_REMOTE_REPO || options.remoteHost;
+  const remoteRepo = `${remotePrefix ? `${remotePrefix}/` : ''}${gcpProjectID}_${projectName}`;
+
+  const gcpPrefix = `${process.env.GCP_REGISTRY_HOST || options.gcpHost}`;
+  const gcpRepo = `${gcpPrefix}/${gcpProjectID}/${projectName}`;
 
   const version = `${process.env.version || options.version || packageJson.version || 'latest'}`;
-  const image = `${repo}:${version}`;
-  const latest = `${repo}:latest`;
+  const remoteImage = `${remoteRepo}:${version}`;
+  const remoteLatest = `${remoteRepo}:latest`;
+  const gcpImage = `${gcpRepo}:${version}`;
 
   try {
-    await docker.build(dockerfile, image, {
+    // Build from dist/apps
+    await docker.build(dockerfile, remoteImage, {
       BUILD_PATH: buildPath
     });
-    await docker.tag(image, latest);
-    await docker.push(image);
-    await docker.push(latest);
+
+    // tag latest and gcr
+    await docker.tag(remoteImage, remoteLatest);
+    await docker.tag(remoteImage, gcpImage);
+
+    // push all tags
+    await docker.push(remoteImage);
+    await docker.push(remoteLatest);
+    await docker.push(gcpImage);
+
     return { success: true };
   } catch (error) {
     if (error) console.error(error);
