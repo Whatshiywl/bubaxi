@@ -11,9 +11,9 @@
       "type": "string",
       "description": "The docker hub prefix. Final source will be {source}/{project}_{service}"
     },
-    "target": {
+    "gcpHost": {
       "type": "string",
-      "description": "The grc prefix. Final target will be {target}/{project}/{service}"
+      "description": "The gcr host prefix. Final repo will be {repo}/{project}/{service}"
     },
     "version": {
       "type": "string",

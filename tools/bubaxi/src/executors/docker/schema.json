@@ -15,9 +15,13 @@
       "type": "string",
       "description": "The dockerfile to be used. Defaults to {appRoot}/Dockerfile"
     },
-    "repo": {
+    "remoteHost": {
       "type": "string",
-      "description": "The docker repo prefix. Final repo will be {repo}/{project}_{service}"
+      "description": "The remote host prefix. Final repo will be {repo}/{project}_{service}"
+    },
+    "gcpHost": {
+      "type": "string",
+      "description": "The gcr host prefix. Final repo will be {repo}/{project}/{service}"
     },
     "version": {
       "type": "string",
