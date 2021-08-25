@@ -33,7 +33,7 @@ export default async function dockerExecutor(
 
     // Clean up other images
     const digests = readFileSync('digests.env').toString();
-    const digest = digests.split('\n').find(line => line.match(`DIGEST_${projectName.toUpperCase()}`));
+    const digest = digests.split('\n').find(line => line.match(`DIGEST_${projectName.toUpperCase()}`))?.split('=')[1];
     await gcloud.pruneAll(targetRepo, digest);
 
     return { success: true };
