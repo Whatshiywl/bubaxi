@@ -1,5 +1,6 @@
 import { ExecutorContext } from '@nrwl/devkit';
 import { gcloud, packageJson } from '../common/util';
+import { readFileSync } from 'fs';
 
 export interface DeployExecutorOptions {
   gcpProject: string;
@@ -31,7 +32,8 @@ export default async function dockerExecutor(
     await gcloud.deploy(projectName, target, region, serviceAcc);
 
     // Clean up other images
-    const digest = process.env[`DIGEST_${projectName.toUpperCase()}`];
+    const digests = readFileSync('digests.env').toString();
+    const digest = digests.split('\n').find(line => line.match(`DIGEST_${projectName.toUpperCase()}`));
     await gcloud.pruneAll(targetRepo, digest);
 
     return { success: true };
