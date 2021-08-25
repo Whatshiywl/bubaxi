@@ -1,5 +1,6 @@
 import { ExecutorContext } from '@nrwl/devkit';
 import { docker, packageJson } from '../common/util';
+import { writeFileSync } from 'fs';
 
 export interface DockerExecutorOptions {
   gcpProject: string;
@@ -47,6 +48,10 @@ export default async function dockerExecutor(
     await docker.push(remoteImage);
     await docker.push(remoteLatest);
     await docker.push(gcpImage);
+
+    // get gcr digest
+    const digest = await docker.getDigest(gcpImage);
+    writeFileSync('digests.env', `DIGEST_${projectName.toUpperCase()}=${digest}\n`);
 
     return { success: true };
   } catch (error) {

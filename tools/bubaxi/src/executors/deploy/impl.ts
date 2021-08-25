@@ -1,5 +1,5 @@
 import { ExecutorContext } from '@nrwl/devkit';
-import { docker, gcloud, packageJson } from '../common/util';
+import { gcloud, packageJson } from '../common/util';
 
 export interface DeployExecutorOptions {
   gcpProject: string;
@@ -31,7 +31,8 @@ export default async function dockerExecutor(
     await gcloud.deploy(projectName, target, region, serviceAcc);
 
     // Clean up other images
-    await gcloud.pruneAll(targetRepo, version);
+    const digest = process.env[`DIGEST_${projectName.toUpperCase()}`];
+    await gcloud.pruneAll(targetRepo, digest);
 
     return { success: true };
   } catch (error) {

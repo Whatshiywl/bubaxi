@@ -56,11 +56,12 @@ export const docker = {
     );
   },
 
-  async getDigest(image: string, version: string) {
-    const { stdout: inspectOut } = await wrappedExec(`docker image inspect ${image}:${version}`);
+  async getDigest(image: string) {
+    const prefix = image.split(':')[0];
+    const { stdout: inspectOut } = await wrappedExec(`docker image inspect ${image}`);
     const inspect = JSON.parse(inspectOut);
-    const digest = inspect[0].RepoDigests.find((digest: string) => digest.match(image));
-    return digest.substr(image.length + 1);
+    const digest = inspect[0].RepoDigests.find((digest: string) => digest.match(prefix));
+    return digest.substr(prefix.length + 1);
   }
 };
 
@@ -92,9 +93,9 @@ export const gcloud = {
     );
   },
 
-  async pruneAll(image: string, version: string) {
-    const digest = await docker.getDigest(image, version);
-    if (!digest) throw new Error(`No digest found!`);
+  async pruneAll(image: string, digest: string) {
+    if (!digest) throw new Error(`No digest found for ${image}!`);
+    console.info(`Will delete all ${image} without digest ${digest}`);
     const { stdout, stderr } = await wrappedExec(`gcloud container images list-tags ${image} --filter="digest != ${digest}" --format=json`);
     const tags = JSON.parse(stdout);
     if (!tags.length) console.info(`Nothing to delete`);
