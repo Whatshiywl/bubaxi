@@ -9,6 +9,8 @@ export interface DockerExecutorOptions {
   remoteHost: string;
   gcpHost: string;
   version: string;
+  build: boolean;
+  push: boolean;
 }
 
 export default async function dockerExecutor(
@@ -35,23 +37,29 @@ export default async function dockerExecutor(
   const gcpImage = `${gcpRepo}:${version}`;
 
   try {
-    // Build from dist/apps
-    await docker.build(dockerfile, remoteImage, {
-      BUILD_PATH: buildPath
-    });
+    if (options.build || !options.push) {
+      // Build from dist/apps
+      await docker.build(dockerfile, remoteImage, {
+        BUILD_PATH: buildPath
+      });
+    }
 
-    // tag latest and gcr
-    await docker.tag(remoteImage, remoteLatest);
-    await docker.tag(remoteImage, gcpImage);
+    if (options.push || !options.build) {
+      // tag latest and gcr
+      await docker.tag(remoteImage, remoteLatest);
+      await docker.tag(remoteImage, gcpImage);
 
-    // push all tags
-    await docker.push(remoteImage);
-    await docker.push(remoteLatest);
-    await docker.push(gcpImage);
+      // push all tags
+      await Promise.all([
+        docker.push(remoteImage),
+        docker.push(gcpImage)
+      ]);
+      await docker.push(remoteLatest);
 
-    // get gcr digest
-    const digest = await docker.getDigest(gcpImage);
-    appendFileSync('digests.env', `DIGEST_${projectName.toUpperCase()}=${digest}\n`);
+      // get gcr digest
+      const digest = await docker.getDigest(gcpImage);
+      appendFileSync('digests.env', `DIGEST_${projectName.toUpperCase()}=${digest}\n`);
+    }
 
     return { success: true };
   } catch (error) {

@@ -26,6 +26,14 @@
     "version": {
       "type": "string",
       "description": "The image tag version. Defaults to 'latest'"
+    },
+    "build": {
+      "type": "boolean",
+      "description": "Weather the job should just build images"
+    },
+    "push": {
+      "type": "boolean",
+      "description": "Weather the job should just tag and push images"
     }
   }
 }
