@@ -46,7 +46,7 @@ export const docker = {
 
   push(image: string) {
     return wrappedSpawn(
-      `docker`, [ 'push', image ]
+      `docker`, [ 'push', '--quiet', image ]
     );
   },
 
