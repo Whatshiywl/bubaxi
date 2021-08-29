@@ -10,7 +10,7 @@ import { createProxyMiddleware } from 'http-proxy-middleware';
 
 const app = express();
 
-app.get('/api', (req, res) => {
+app.get('/gateway/api', (req, res) => {
   res.send({ message: 'Welcome to gateway!' });
 });
 

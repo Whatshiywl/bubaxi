@@ -1,31 +1,34 @@
 import { environment } from './environments/environment';
 import { Options } from "http-proxy-middleware";
+import { join } from 'path';
 
 const logLevel = environment.production ? 'info' : 'info';
+const secure = environment.production;
 
 const proxy: { [path: string]: Options } = { };
 
-function addProxy(basePath: string, path: string, target: string, devTarget: string) {
+function addProxy(basePath: string, path: string, target: string) {
   const options: Options = {
     target,
     changeOrigin: true,
-    secure: false,
+    secure,
     logLevel,
-    pathRewrite: { },
-    router: { 'localhost:3000': devTarget }
+    pathRewrite: { }
   };
-  options.pathRewrite[`^${basePath}`] = '';
-  const fullPath = `${basePath}${path}`;
-  proxy[fullPath] = options;
+  if (basePath.length > 1) options.pathRewrite[`^${basePath}`] = '';
+  const fullPath = join(basePath, path);
+  const willTrim = fullPath.length > 1 && fullPath.endsWith('/');
+  const trimmed = willTrim ? fullPath.substr(0, fullPath.length - 1) : fullPath;
+  proxy[trimmed] = options;
 }
 
-addProxy('/test-npx', '/api', 'https://test-api-2bfaoux6cq-uc.a.run.app/', 'http://localhost:3080/');
-addProxy('/test-npx', '',     'https://test-npx-2bfaoux6cq-uc.a.run.app/', 'http://localhost:8080/');
-
-addProxy('/quintozap', '/api', 'https://quintozap-api-2bfaoux6cq-uc.a.run.app/', 'http://localhost:3020/');
-addProxy('/quintozap', '',     'https://quintozap-ngx-2bfaoux6cq-uc.a.run.app/', 'http://localhost:8020/');
-
-addProxy('/api',  '', 'https://homaxi-api-2bfaoux6cq-uc.a.run.app/', 'http://localhost:3010/');
-addProxy('/',     '', 'https://homaxi-ngx-2bfaoux6cq-uc.a.run.app/', 'http://localhost:8010/');
+const proxyEnv = environment.proxy;
+Object.keys(proxyEnv).forEach(basePath => {
+  const { paths } = proxyEnv[basePath];
+  Object.keys(paths).forEach(path => {
+    const target = paths[path];
+    addProxy(basePath, path, target);
+  });
+});
 
 export default proxy;
