@@ -1,0 +1,42 @@
+<h2 mat-dialog-title>{{listing.title}}
+  <button mat-icon-button
+  (click)="copyLink()">
+    <mat-icon>link</mat-icon>
+  </button>
+  <button mat-icon-button
+  (click)="onToggleVisibility()">
+    <mat-icon *ngIf="isSeen(listing); else notSeen">visibility_outline</mat-icon>
+    <ng-template #notSeen><mat-icon>visibility_off_outline</mat-icon></ng-template>
+  </button>
+</h2>
+<mat-dialog-content class="mat-typography">
+  <swiper
+    [slidesPerView]="getSlidesPerView()"
+    [spaceBetween]="5"
+    [centerInsufficientSlides]="true"
+    [keyboard]="true"
+    [mousewheel]="{ sensitivity: 1 }"
+    [observeParents]="true">
+    <ng-template *ngFor="let picture of listing.pictures" swiperSlide>
+      <img [src]="picture" alt="" class="slide-image">
+    </ng-template>
+  </swiper>
+  <mat-chip-list [selectable]="false">
+    <mat-chip disableRipple [selected]="false">${{listing.totalCost}}</mat-chip>
+    <mat-chip disableRipple>{{listing.area}} m²</mat-chip>
+    <mat-chip disableRipple>{{listing.rooms}} rooms</mat-chip>
+    <mat-chip *ngIf="listing.lastPublicationDate" disableRipple>{{getPublicationTimeInDays()}} days</mat-chip>
+  </mat-chip-list>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Close</button>
+  <button mat-button cdkFocusInitial
+  (click)="openLink()">
+    {{linkButton}}
+  </button>
+  <button mat-button cdkFocusInitial
+  (click)="onFavorite()">
+    <mat-icon *ngIf="isFavorite(listing); else notFav" color="warn">favorite</mat-icon>
+    <ng-template #notFav><mat-icon>favorite_border</mat-icon></ng-template>
+  </button>
+</mat-dialog-actions>

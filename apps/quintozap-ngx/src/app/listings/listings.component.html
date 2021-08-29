@@ -1,0 +1,36 @@
+<div *ngIf="listing" class="listings">
+  <mat-icon class="pagination-btn prev-btn unselectable" color="accent"
+  [style.visibility]="showPrevBtn ? 'visible' : 'hidden'"
+  (click)="onPrev()">
+    label_important
+  </mat-icon>
+  <mat-icon class="pagination-btn next-btn unselectable" color="accent"
+  [style.visibility]="showNextBtn ? 'visible' : 'hidden'"
+  (click)="onNext()">
+    label_important
+  </mat-icon>
+  <div [style.visibility]="(isVisible(listing)) ? 'visible' : 'hidden'"
+  [style.width.px]="options.width" [style.height.px]="options.height"
+  matBadge="&#8288;" matBadgeSize="small" [matBadgeHidden]="isSeen(listing)" matBadgeColor="warn"
+  class="listing unselectable" [ngClass]="listing.class + (isFavorite(listing) ? ' favorite' : '')" (click)="onListingClicked(listing)">
+    <div class="section">
+      <div class="section-element">
+        {{listing.area}}
+      </div>
+      <div class="section-element">
+        {{listing.areaPerThousand}}
+      </div>
+      <div class="section-element">
+        {{listing.rooms}}
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-element">
+        {{listing.totalCost}}
+      </div>
+      <div *ngIf="listing.lastPublicationDate" class="section-element">
+        {{getPublicationTimeInDays(listing)}}d
+      </div>
+    </div>
+  </div>
+</div>
