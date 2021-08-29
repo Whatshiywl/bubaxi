@@ -1,9 +1,13 @@
 import { Injectable } from "@angular/core";
 
+export interface LastPublications {
+  [id: string]: string;
+}
+
 @Injectable()
 export class StorageService {
 
-  getLastPublicationDates() {
+  getLastPublicationDates(): LastPublications {
     return this.getJSON('lastPublications') || { };
   }
 
@@ -24,8 +28,9 @@ export class StorageService {
     return JSON.parse(obj);
   }
 
-  private setJSON(key: string, value: string) {
-    localStorage.setItem(key, value);
+  private setJSON(key: string, value: Record<string, unknown>) {
+    const obj = JSON.stringify(value);
+    localStorage.setItem(key, obj);
   }
 
 }
