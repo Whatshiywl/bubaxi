@@ -1,6 +1,7 @@
 import { ExecutorContext } from '@nrwl/devkit';
 import { gcloud, packageJson } from '../common/util';
-import { readFileSync } from 'fs';
+import { readFileSync, existsSync } from 'fs';
+import { join } from 'path';
 
 export interface DeployExecutorOptions {
   gcpProject: string;
@@ -15,13 +16,18 @@ export default async function dockerExecutor(
   context: ExecutorContext
 ) {
   console.info(`Executing "deploy"...`);
-  const { projectName } = context;
+  const { projectName, workspace } = context;
   const gcpProjectID = process.env.GCP_PROJECT || options.gcpProject;
+  const project = workspace.projects[projectName];
+
+  const buildPath = project?.targets.build?.options?.outputPath || `dist/apps/${projectName}`;
+  const versionFile = join(buildPath, 'version');
 
   const targetPrefix = `${process.env.GCP_REGISTRY_HOST || options.gcpHost}`;
   const targetRepo = `${targetPrefix}/${gcpProjectID}/${projectName}`;
 
-  const version = `${process.env.version || options.version || packageJson.version || 'latest'}`;
+  const fileVersion = existsSync(versionFile) ? readFileSync(versionFile).toString().trim() : '';
+  const version = `${process.env.version || options.version || fileVersion || packageJson.version || 'latest'}`
   const target = `${targetRepo}:${version}`;
 
   const serviceAcc = options.serviceAcc;

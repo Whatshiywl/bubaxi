@@ -1,6 +1,7 @@
 import { ExecutorContext } from '@nrwl/devkit';
 import { docker, packageJson } from '../common/util';
-import { appendFileSync } from 'fs';
+import { appendFileSync, readFileSync, existsSync } from 'fs';
+import { join } from 'path';
 
 export interface DockerExecutorOptions {
   gcpProject: string;
@@ -24,6 +25,7 @@ export default async function dockerExecutor(
 
   const buildPath = options.context || project?.targets.build?.options?.outputPath || `dist/apps/${projectName}`;
   const dockerfile = options.dockerfile || `${project ? `${project.root}/Dockerfile` : `apps/${projectName}/Dockerfile`}`;
+  const versionFile = join(buildPath, 'version');
 
   const remotePrefix = process.env.DOCKER_HUB_REMOTE_REPO || options.remoteHost;
   const remoteRepo = `${remotePrefix ? `${remotePrefix}/` : ''}${gcpProjectID}_${projectName}`;
@@ -31,7 +33,8 @@ export default async function dockerExecutor(
   const gcpPrefix = `${process.env.GCP_REGISTRY_HOST || options.gcpHost}`;
   const gcpRepo = `${gcpPrefix}/${gcpProjectID}/${projectName}`;
 
-  const version = `${process.env.version || options.version || packageJson.version || 'latest'}`;
+  const fileVersion = existsSync(versionFile) ? readFileSync(versionFile).toString().trim() : '';
+  const version = `${process.env.version || options.version || fileVersion || packageJson.version || 'latest'}`;
   const remoteImage = `${remoteRepo}:${version}`;
   const remoteLatest = `${remoteRepo}:latest`;
   const gcpImage = `${gcpRepo}:${version}`;
