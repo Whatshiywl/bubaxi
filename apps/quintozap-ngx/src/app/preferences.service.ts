@@ -4,7 +4,7 @@ import { AngularFirestore, AngularFirestoreCollection } from "@angular/fire/fire
 import { Subject, Subscription } from "rxjs";
 import { first } from "rxjs/operators";
 import { Filter } from "./app.component";
-import { FirebaseUser } from "./auth/auth.service";
+import { FirebaseUser } from "@bubaxi/auth";
 
 export interface Preferences {
   autoSearch: boolean,

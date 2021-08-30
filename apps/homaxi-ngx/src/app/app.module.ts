@@ -16,7 +16,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ProjectComponent } from './project/project.component';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from '@bubaxi/auth';
 
 @NgModule({
   declarations: [

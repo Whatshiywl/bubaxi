@@ -3,7 +3,7 @@ import { AbstractControl, AbstractControlOptions, FormBuilder, FormGroup, Valida
 import { AuthService, FirebaseUser, UserCredential } from './auth.service';
 
 @Component({
-  selector: 'bubaxi-homaxi-auth',
+  selector: 'bubaxi-auth',
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss']
 })
