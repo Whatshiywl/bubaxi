@@ -13,6 +13,5 @@ export const environment = {
         '/':    'http://localhost:8010/'
       }
     }
-  },
-  PORT: 3000
+  }
 };

@@ -4,7 +4,6 @@
  */
 
 import * as express from 'express';
-import { environment } from './environments/environment';
 import proxy from './proxy';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 
@@ -21,7 +20,7 @@ for (const route of routes) {
   app.use(proxyMiddleware);
 }
 
-const port = process.env.PORT || environment.PORT || 3333;
+const port = process.env.PORT || 3333;
 const server = app.listen(port, () => {
   console.log(`Listening on port ${port}`);
 });
