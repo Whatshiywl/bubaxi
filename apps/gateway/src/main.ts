@@ -9,6 +9,14 @@ import { createProxyMiddleware } from 'http-proxy-middleware';
 
 const app = express();
 
+app.all('/gateway/api/webhook', (req, res) => {
+  const { method, headers, query, body } = req;
+  console.log('req', {
+    method, headers, query, body
+  });
+  res.send({ success: true });
+});
+
 app.get('/gateway/api', (req, res) => {
   res.send({ message: 'Welcome to gateway!' });
 });
