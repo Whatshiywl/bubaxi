@@ -1,8 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import { Label, Color } from 'ng2-charts';
-import { EngineService } from '../shared/engine.service';
+import { EngineIterationResult, EngineService } from '../shared/engine.service';
 
 @Component({
   selector: 'bubaxi-sre-graph',
@@ -13,6 +13,7 @@ export class GraphComponent implements OnInit {
   @Input() errorRateControl!: AbstractControl | null;
   @Input() sloControl!: AbstractControl | null;
   @Input() slaControl!: AbstractControl | null;
+  @Output() update: EventEmitter<EngineIterationResult> = new EventEmitter<EngineIterationResult>();
 
   availabilityData: ChartDataSets[] = [
     { data: [], label: 'SLI', pointRadius: 1 },
@@ -103,7 +104,9 @@ export class GraphComponent implements OnInit {
         SLA: this.availabilityData[2],
         errorBudget: this.errorBudgetData[0]
       }
-    ).subscribe();
+    ).subscribe(result => {
+      this.update.emit(result);
+    });
   }
 
 }

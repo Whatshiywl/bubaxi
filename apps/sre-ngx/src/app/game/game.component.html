@@ -1,1 +1,28 @@
-<p>game works!</p>
+<mat-drawer-container class="drawer-container">
+  <mat-drawer mode="side" opened>
+    <form class="app-form" [formGroup]="appProps">
+      <div class="form-element">
+        <mat-label>SLO: {{appProps.get('SLO')?.value}}%</mat-label>
+        <mat-slider (input)="setSlider('SLO', $event.value || 0, true)" min="0" max="1" step="0.01" #sloSlider></mat-slider>
+      </div>
+      <button mat-raised-button color="primary" (click)="onNewFeature(1)" [disabled]="devTimeout > 0">Improvement (5d)</button>
+      <button mat-raised-button color="primary" (click)="onNewFeature(2)" [disabled]="devTimeout > 0">Small feature (10d)</button>
+      <button mat-raised-button color="primary" (click)="onNewFeature(3)" [disabled]="devTimeout > 0">Big feature (15d)</button>
+      <button mat-raised-button color="warn" (click)="onBugFix()" [disabled]="devTimeout > 0 || appProps.get('errorRate')?.value === 0">Bug fix (3d)</button>
+    </form>
+    <div class="indicators">
+      <mat-icon [color]="slaFactor > 0.7 ? 'currentColor' : 'warn'">pest_control</mat-icon>
+      <mat-icon [color]="featureFactor > 0.7 ? 'currentColor' : 'warn'">schedule</mat-icon>
+    </div>
+  </mat-drawer>
+  <mat-drawer-content>
+    <bubaxi-sre-graph
+    [errorRateControl]="appProps.get('errorRate')"
+    [sloControl]="appProps.get('SLO')"
+    [slaControl]="appProps.get('SLA')"
+    (update)="onGraphUpdate($event)"
+    ></bubaxi-sre-graph>
+    <div class="satisfaction-meter" [style.width.%]="satisfaction" [style.backgroundColor]="satisfactionColor"></div>
+    <span class="satisfaction-text">Customer satisfaction: {{satisfaction | number: '1.0-0'}}%</span>
+  </mat-drawer-content>
+</mat-drawer-container>

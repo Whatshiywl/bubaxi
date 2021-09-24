@@ -2,8 +2,14 @@ import { Injectable } from "@angular/core";
 import { AbstractControl } from "@angular/forms";
 import { ChartDataSets } from "chart.js";
 import { Label } from "ng2-charts";
-import { interval } from "rxjs";
+import { interval, Observable } from "rxjs";
 import { map } from "rxjs/operators";
+
+export interface EngineIterationResult {
+  i: number;
+  sli: number;
+  errorBudget: number
+}
 
 @Injectable()
 export class EngineService {
@@ -19,8 +25,8 @@ export class EngineService {
     SLO: ChartDataSets,
     SLA: ChartDataSets,
     errorBudget: ChartDataSets
-  }) {
-    const requests = 200;
+  }): Observable<EngineIterationResult> {
+    const requests = 1000;
     const window = 30;
     return interval(500).pipe(
       map(i => {
