@@ -21,7 +21,11 @@ export class AppComponent implements OnInit {
       href: '/quintozap',
       img: '/assets/quintozap.jpg'
     },
-    comingSoon,
+    {
+      name: 'SRE',
+      href: '/sre',
+      img: '/assets/sre.jpg'
+    },
     comingSoon,
     comingSoon,
     comingSoon,

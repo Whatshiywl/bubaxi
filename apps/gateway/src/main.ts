@@ -11,10 +11,9 @@ const app = express();
 
 app.all('/gateway/api/webhook', (req, res) => {
   const { method, headers, query, body } = req;
-  console.log('req', {
-    method, headers, query, body
-  });
-  res.send({ success: true });
+  const request = { method, headers, query, body };
+  console.log('req', request);
+  res.send({ success: true, request });
 });
 
 app.get('/gateway/api', (req, res) => {

@@ -1,6 +1,12 @@
 export const environment = {
   production: false,
   proxy: {
+    '/sre': {
+      paths: {
+        // '/api': 'http://localhost:3030/',
+        '/':    'http://localhost:8030/'
+      }
+    },
     '/quintozap': {
       paths: {
         '/api': 'http://localhost:3020/',
