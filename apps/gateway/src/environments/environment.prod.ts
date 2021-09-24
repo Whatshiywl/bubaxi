@@ -1,6 +1,11 @@
 export const environment = {
   production: true,
   proxy: {
+    '/sre': {
+      paths: {
+        '/':    'https://rpe-ngx-2bfaoux6cq-uc.a.run.app/'
+      }
+    },
     '/quintozap': {
       paths: {
         '/api': 'https://quintozap-api-2bfaoux6cq-uc.a.run.app/',
