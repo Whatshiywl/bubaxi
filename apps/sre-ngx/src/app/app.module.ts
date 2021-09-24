@@ -19,6 +19,8 @@ import { AppComponent } from './app.component';
 import { RoutesModule } from './routes.module';
 import { InteractiveComponent } from './interactive/interactive.component';
 import { GameComponent } from './game/game.component';
+import { EngineService } from './shared/engine.service';
+import { SliderService } from './shared/slider.service';
 
 @NgModule({
   declarations: [
@@ -43,7 +45,10 @@ import { GameComponent } from './game/game.component';
     MatSliderModule,
     ChartsModule
   ],
-  providers: [],
+  providers: [
+    EngineService,
+    SliderService
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
