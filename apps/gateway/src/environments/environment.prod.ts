@@ -3,7 +3,7 @@ export const environment = {
   proxy: {
     '/sre': {
       paths: {
-        '/':    'https://rpe-ngx-2bfaoux6cq-uc.a.run.app/'
+        '/':    'https://sre-ngx-2bfaoux6cq-uc.a.run.app/'
       }
     },
     '/quintozap': {
