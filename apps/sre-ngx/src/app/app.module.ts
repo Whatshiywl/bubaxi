@@ -21,12 +21,14 @@ import { InteractiveComponent } from './interactive/interactive.component';
 import { GameComponent } from './game/game.component';
 import { EngineService } from './shared/engine.service';
 import { SliderService } from './shared/slider.service';
+import { GraphComponent } from './graph/graph.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     InteractiveComponent,
-    GameComponent
+    GameComponent,
+    GraphComponent
   ],
   imports: [
     BrowserModule,

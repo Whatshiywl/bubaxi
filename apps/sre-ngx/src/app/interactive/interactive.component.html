@@ -16,25 +16,10 @@
     </form>
   </mat-drawer>
   <mat-drawer-content id="interactive-content">
-    <div class="charts">
-      <canvas baseChart
-        [datasets]="availabilityData"
-        [labels]="lineChartLabels"
-        [options]="availabilityOptions"
-        [colors]="lineChartColors"
-        [legend]="lineChartLegend"
-        [chartType]="lineChartType"
-        [plugins]="lineChartPlugins">
-      </canvas>
-      <canvas baseChart
-        [datasets]="errorBudgetData"
-        [labels]="lineChartLabels"
-        [options]="errorBudgetOptions"
-        [colors]="lineChartColors"
-        [legend]="lineChartLegend"
-        [chartType]="lineChartType"
-        [plugins]="lineChartPlugins">
-      </canvas>
-    </div>
+    <bubaxi-sre-graph
+    [errorRateControl]="appProps.get('errorRate')"
+    [sloControl]="appProps.get('SLO')"
+    [slaControl]="appProps.get('SLA')"
+    ></bubaxi-sre-graph>
   </mat-drawer-content>
 </mat-drawer-container>
