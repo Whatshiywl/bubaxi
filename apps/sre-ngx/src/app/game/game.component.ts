@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, HostListener, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatSlider } from '@angular/material/slider';
 import { EngineIterationResult } from '../shared/engine.service';
@@ -14,18 +14,21 @@ export class GameComponent implements AfterViewInit {
 
   appProps: FormGroup;
 
+  errorBudget = 100;
+
   satisfaction = 100;
   slaFactor = 100;
   featureFactor = 100;
 
-  devTimeout = 0;
-
-  nextChange: 'feature' | 'bugfix' | undefined = undefined;
+  featureTimeout = 0;
+  nextChange: 'feature' | undefined = undefined;
   nextFeatureSize = 0;
   nextErrorChange = 0;
 
   lastFeature = 0;
   lastFeatureSize = 0;
+
+  debugging = false;
 
   constructor(
     fb: FormBuilder,
@@ -36,6 +39,16 @@ export class GameComponent implements AfterViewInit {
       SLO: fb.control(95),
       SLA: fb.control(90)
     });
+  }
+
+  @HostListener('window:keyup', ['$event'])
+  handleKeyUp(event: KeyboardEvent) {
+    if (this.featureTimeout > 0) return;
+    if (['1', '2', '3'].includes(event.key) && !this.debugging) {
+      this.onNewFeature(+event.key);
+    } else if (event.key === '4') {
+      this.toggleBugFix();
+    }
   }
 
   ngAfterViewInit() {
@@ -54,12 +67,12 @@ export class GameComponent implements AfterViewInit {
   }
 
   onGraphUpdate(result: EngineIterationResult) {
-    if (this.devTimeout) {
-      this.devTimeout--;
-      if (!this.devTimeout) {
+    this.errorBudget = result.errorBudget;
+    if (this.featureTimeout) {
+      this.featureTimeout--;
+      if (!this.featureTimeout) {
         const errorRate = this.appProps.get('errorRate')?.value as number;
-        const newErrorRate = this.nextChange === 'feature' ? +`${(errorRate + this.nextErrorChange).toFixed(2)}` :
-          (this.nextChange === 'bugfix' ? +`${(errorRate * (1 - this.nextErrorChange / (errorRate + 1))).toFixed(2)}` : undefined);
+        const newErrorRate = this.nextChange === 'feature' ? +`${(errorRate + this.nextErrorChange).toFixed(2)}` : undefined;
         if (newErrorRate !== undefined) {
           this.appProps.get('errorRate')?.setValue(newErrorRate);
           this.nextErrorChange = 0;
@@ -72,26 +85,40 @@ export class GameComponent implements AfterViewInit {
         this.nextChange = undefined;
         this.nextFeatureSize = 0;
       }
+    } else if (this.debugging && Math.random() < (0.5 / 3)) {
+      const errorRate = this.appProps.get('errorRate')?.value as number;
+      const newErrorRate = this.debugging ? +`${(errorRate * (1 - 0.3 / (errorRate + 1))).toFixed(2)}` : undefined;
+      if (newErrorRate !== undefined) {
+        this.appProps.get('errorRate')?.setValue(newErrorRate);
+        if (newErrorRate == 0) this.toggleBugFix();
+      }
+    } else if (!this.debugging && this.featureTimeout === 0 && result.errorBudget < 0) {
+      this.toggleBugFix();
     }
     this.updateSatisfaction(result);
   }
 
   onNewFeature(size: number) {
-    this.devTimeout = 5 * size;
+    this.featureTimeout = 5 * size;
     this.nextChange = 'feature';
     this.nextFeatureSize = size;
     const bugStrength = 0.2 * size * size * size;
-    const chanceOfNoBug = 0.8 / (size * size * size);
+    const chanceOfNoBug = 0.6 / (size * size * size);
     if (Math.random() < chanceOfNoBug) return;
     const currentErrorRate = this.appProps.get('errorRate')?.value;
     this.nextErrorChange = Math.min(100 - currentErrorRate, bugStrength);
   }
 
-  onBugFix() {
-    this.devTimeout = 3;
-    this.nextChange = 'bugfix';
-    if (Math.random() < 0.5) return;
-    this.nextErrorChange = 0.2;
+  toggleBugFix() {
+    this.debugging = !this.debugging;
+  }
+
+  get errorRate() {
+    return this.appProps.get('errorRate')?.value;
+  }
+
+  get slo() {
+    return this.appProps.get('SLO')?.value;
   }
 
   get satisfactionColor() {

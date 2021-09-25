@@ -2,18 +2,33 @@
   <mat-drawer mode="side" opened>
     <form class="app-form" [formGroup]="appProps">
       <div class="form-element">
-        <mat-label>SLO: {{appProps.get('SLO')?.value}}%</mat-label>
+        <mat-label>SLO: {{slo}}%</mat-label>
         <mat-slider (input)="setSlider('SLO', $event.value || 0, true)" min="0" max="1" step="0.01" #sloSlider></mat-slider>
       </div>
-      <button mat-raised-button color="primary" (click)="onNewFeature(1)" [disabled]="devTimeout > 0">Improvement (5d)</button>
-      <button mat-raised-button color="primary" (click)="onNewFeature(2)" [disabled]="devTimeout > 0">Small feature (10d)</button>
-      <button mat-raised-button color="primary" (click)="onNewFeature(3)" [disabled]="devTimeout > 0">Big feature (15d)</button>
-      <button mat-raised-button color="warn" (click)="onBugFix()" [disabled]="devTimeout > 0 || appProps.get('errorRate')?.value === 0">Bug fix (3d)</button>
+
+      <div class="divider"></div>
+
+      <div *ngIf="featureTimeout > 0 && nextFeatureSize === 1; then raisedFeature1 else strokeFeature1"></div>
+      <ng-template #raisedFeature1><button mat-raised-button  color="primary">Developing... ({{featureTimeout}}d)</button></ng-template>
+      <ng-template #strokeFeature1><button mat-stroked-button color="primary" (click)="onNewFeature(1)" [disabled]="debugging || featureTimeout > 0 || errorBudget <= 0">Improvement (5d)</button></ng-template>
+
+      <div *ngIf="featureTimeout > 0 && nextFeatureSize === 2; then raisedFeature2 else strokeFeature2"></div>
+      <ng-template #raisedFeature2><button mat-raised-button  color="primary">Developing... ({{featureTimeout}}d)</button></ng-template>
+      <ng-template #strokeFeature2><button mat-stroked-button color="primary" (click)="onNewFeature(2)" [disabled]="debugging || featureTimeout > 0 || errorBudget <= 0">Small feature (10d)</button></ng-template>
+
+      <div *ngIf="featureTimeout > 0 && nextFeatureSize === 3; then raisedFeature3 else strokeFeature3"></div>
+      <ng-template #raisedFeature3><button mat-raised-button  color="primary">Developing... ({{featureTimeout}}d)</button></ng-template>
+      <ng-template #strokeFeature3><button mat-stroked-button color="primary" (click)="onNewFeature(3)" [disabled]="debugging || featureTimeout > 0 || errorBudget <= 0">Big feature (15d)</button></ng-template>
+
+      <div *ngIf="debugging; then raisedDebug else strokeDebug"></div>
+      <ng-template #raisedDebug><button mat-raised-button  color="warn" (click)="toggleBugFix()">Debugging... (click to stop)</button></ng-template>
+      <ng-template #strokeDebug><button mat-stroked-button color="warn" (click)="toggleBugFix()" [disabled]="featureTimeout > 0 || errorRate === 0">Bug fix (∞)</button></ng-template>
+
+      <div class="indicators">
+        <mat-icon [color]="slaFactor > 0.7 ? 'currentColor' : 'warn'">pest_control</mat-icon>
+        <mat-icon [color]="featureFactor > 0.7 ? 'currentColor' : 'warn'">schedule</mat-icon>
+      </div>
     </form>
-    <div class="indicators">
-      <mat-icon [color]="slaFactor > 0.7 ? 'currentColor' : 'warn'">pest_control</mat-icon>
-      <mat-icon [color]="featureFactor > 0.7 ? 'currentColor' : 'warn'">schedule</mat-icon>
-    </div>
   </mat-drawer>
   <mat-drawer-content>
     <bubaxi-sre-graph
