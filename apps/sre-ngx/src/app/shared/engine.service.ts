@@ -27,7 +27,7 @@ export class EngineService {
     errorBudget: ChartDataSets
   }): Observable<EngineIterationResult> {
     const requests = 1000;
-    const window = 30;
+    const window = 28;
     return interval(500).pipe(
       map(i => {
         const slo = controls.SLO?.value;

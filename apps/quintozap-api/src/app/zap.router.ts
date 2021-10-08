@@ -6,15 +6,18 @@ router.get('/', (req, res) => {
   const params = getParams(req.query);
   const paramsString = toQueryString(params);
   const zapPath = 'https://glue-api.zapimoveis.com.br/v2/listings';
-
-  fetch(`${zapPath}?${paramsString}`, {
-    "headers": getHeaders(),
+  const url = `${zapPath}?${paramsString}`;
+  const headers = getHeaders();
+  const options = {
+    headers,
+    body: null,
+    method: 'GET',
     // "referrer": "https://www.zapimoveis.com.br/",
     // "referrerPolicy": "strict-origin-when-cross-origin",
-    "body": null,
-    "method": "GET",
     // "mode": "cors"
-  })
+  };
+
+  fetch(url, options)
   .then(result => result.json())
   .then(data => res.json(data))
   .catch(err => console.error(err));

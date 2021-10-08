@@ -199,14 +199,14 @@ export class ZapService {
       const area = +result.listing.usableAreas[0];
       const totalCost = this.getFullListingPrice(result);
       const areaPerThousand = Math.round(area * 1000 / totalCost);
-      const pictures = result.medias
+      const pictures = result.medias ? result.medias
       .filter(media => media.type === 'IMAGE')
       .map(media => {
         return media.url
         .replace('{action}', 'fit-in')
         .replace('{width}', '800')
         .replace('{height}', '360');
-      });
+      }) : [];
       const mapped: CommonListing = {
         class: 'zap-listing',
         origin: this.origin,

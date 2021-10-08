@@ -1,3 +1,6 @@
+import * as debugAgent from '@google-cloud/debug-agent';
+debugAgent.start();
+
 import * as express from 'express';
 import zapRouter from './app/zap.router';
 import quintoRouter from './app/quinto.router';

@@ -148,11 +148,10 @@ export class QuintoService {
     return results.map(result => {
       const id = `${this.origin}-${result._id}`;
       const areaPerThousand = Math.round(result._source.area * 1000 / result._source.totalCost);
-      const pictures = result._source.imageList
-      .map(image => {
+      const pictures = result._source?.imageList?.map(image => {
         return `https://www.quintoandar.com.br/img/xxl/${image}`;
-      });
-      const pictureCaptions = [ ...result._source.imageCaptionList ];
+      }) || [];
+      const pictureCaptions = [ ...(result._source.imageCaptionList || []) ];
       const mapped: CommonListing = {
         class: 'quinto-listing',
         origin: this.origin,
