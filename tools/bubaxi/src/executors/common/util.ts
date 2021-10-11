@@ -13,16 +13,31 @@ export function wrappedExec(cmd: string) {
 }
 
 export function wrappedSpawn(cmd: string, args?: readonly string[]) {
-  console.info(`Spawning ${cmd} ${args.join(' ')}`);
+  const spawnName = `${cmd} ${args.join(' ')}`;
+  console.info(`Spawning ${spawnName}`);
+  const start = Date.now();
+
+  const timestamp = (data: string | any, logger: (str: string) => void) => {
+    const time = (Date.now() - start).toString().padStart(6, ' ');
+    const line = `${time}ms: ${typeof data === 'string' ? data : data.toString()}`;
+    logger(line);
+  };
+
   return new Promise<void>((resolve, reject) => {
-    const docker = spawn(cmd, args);
-    docker.stdout.on('data', data => console.log(data.toString()));
-    docker.stderr.on('data', data => console.error(data.toString()));
-    docker.on('exit', code => {
+    const process = spawn(cmd, args);
+    process.stdout.on('data', data => timestamp(data, console.info));
+    process.stderr.on('data', data => timestamp(data, console.error));
+    process.on('exit', code => {
       if (code) console.error(`Process ended with status code ${code}`);
+      const time = Date.now() - start;
+      console.log(`Spawn took ${time}ms`);
       code ? reject() : resolve();
     });
-    docker.on('error', error => reject(error));
+    process.on('error', error => {
+      const time = Date.now() - start;
+      console.log(`Spawn error took ${time}ms`);
+      reject(error);
+    });
   });
 }
 
