@@ -30,12 +30,12 @@ export function wrappedSpawn(cmd: string, args?: readonly string[]) {
     process.on('exit', code => {
       if (code) console.error(`Process ended with status code ${code}`);
       const time = Date.now() - start;
-      console.log(`Spawn took ${time}ms`);
+      console.log(`Spawn ${spawnName} took ${time}ms`);
       code ? reject() : resolve();
     });
     process.on('error', error => {
       const time = Date.now() - start;
-      console.log(`Spawn error took ${time}ms`);
+      console.log(`Spawn ${spawnName} error took ${time}ms`);
       reject(error);
     });
   });
