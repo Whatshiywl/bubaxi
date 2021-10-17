@@ -10,8 +10,8 @@
   <mat-drawer-container class="drawer-container" hasBackdrop="false">
     <mat-drawer class="drawer"
     #drawer mode="over" position="end">
-      <button mat-flat-button (click)="router.navigate(['/interactive'])">Interactive</button>
-      <button mat-flat-button (click)="router.navigate(['/game'])">Game</button>
+      <button mat-flat-button (click)="router.navigate(['/interactive']); drawer.toggle()">Interactive</button>
+      <button mat-flat-button (click)="router.navigate(['/game']); drawer.toggle()">Game</button>
     </mat-drawer>
     <mat-drawer-content>
       <router-outlet></router-outlet>
