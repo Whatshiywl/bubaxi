@@ -37,7 +37,7 @@ export class GraphComponent implements OnInit {
     scales: {
       yAxes: [{
         ticks: {
-          min: 50,
+          min: 80,
           max: 100
         }
       }]

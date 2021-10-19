@@ -1,5 +1,8 @@
+import { environment } from './environments/environment';
 import * as debugAgent from '@google-cloud/debug-agent';
-debugAgent.start();
+if (environment.production) {
+  debugAgent.start();
+}
 
 import * as express from 'express';
 import zapRouter from './app/zap.router';
@@ -22,6 +25,6 @@ app.use('/api/quinto', quintoRouter);
 
 const port = process.env.PORT || 3333;
 const server = app.listen(port, () => {
-  console.log(`Listening at http://localhost:${port}/api`);
+  console.log(`quintozap-api listening at ${port}`);
 });
 server.on('error', console.error);

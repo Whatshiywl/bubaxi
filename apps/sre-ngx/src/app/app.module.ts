@@ -7,7 +7,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogConfig, MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
@@ -22,13 +22,18 @@ import { GameComponent } from './game/game.component';
 import { EngineService } from './shared/engine.service';
 import { SliderService } from './shared/slider.service';
 import { GraphComponent } from './graph/graph.component';
+import { TutorialComponent } from './tutorial/tutorial.component';
+import { TutorialService } from './tutorial/tutorial.service';
+
+import { UtilModule } from '@bubaxi/util';
 
 @NgModule({
   declarations: [
     AppComponent,
     InteractiveComponent,
     GameComponent,
-    GraphComponent
+    GraphComponent,
+    TutorialComponent
   ],
   imports: [
     BrowserModule,
@@ -45,11 +50,18 @@ import { GraphComponent } from './graph/graph.component';
     MatButtonModule,
     MatCardModule,
     MatSliderModule,
-    ChartsModule
+    ChartsModule,
+    UtilModule
   ],
   providers: [
     EngineService,
-    SliderService
+    SliderService,
+    TutorialService,
+    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {
+      hasBackdrop: true,
+      disableClose: true,
+      maxWidth: '80%'
+    } as MatDialogConfig}
   ],
   bootstrap: [AppComponent],
 })

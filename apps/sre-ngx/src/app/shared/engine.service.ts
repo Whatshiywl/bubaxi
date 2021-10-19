@@ -3,7 +3,7 @@ import { AbstractControl } from "@angular/forms";
 import { ChartDataSets } from "chart.js";
 import { Label } from "ng2-charts";
 import { interval, Observable } from "rxjs";
-import { map } from "rxjs/operators";
+import { filter, map } from "rxjs/operators";
 
 export interface EngineIterationResult {
   i: number;
@@ -13,6 +13,8 @@ export interface EngineIterationResult {
 
 @Injectable()
 export class EngineService {
+
+  private paused = false;
 
   run$(controls: {
     errorRate: AbstractControl | null,
@@ -28,8 +30,11 @@ export class EngineService {
   }): Observable<EngineIterationResult> {
     const requests = 1000;
     const window = 28;
+    let counter = 0;
     return interval(500).pipe(
-      map(i => {
+      filter(_ => !this.paused),
+      map(_ => {
+        const i = counter++;
         const slo = controls.SLO?.value;
         const sla = controls.SLA?.value;
         const errorRate = controls.errorRate?.value;
@@ -56,6 +61,14 @@ export class EngineService {
         }
       })
     );
+  }
+
+  pause() {
+    this.paused = true;
+  }
+
+  resume() {
+    this.paused = false;
   }
 
 }

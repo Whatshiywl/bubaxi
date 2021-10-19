@@ -35,7 +35,7 @@ export class GameComponent implements AfterViewInit {
     private sliderService: SliderService
   ) {
     this.appProps = fb.group({
-      errorRate: fb.control(0.1),
+      errorRate: fb.control(0.5),
       SLO: fb.control(95),
       SLA: fb.control(90)
     });

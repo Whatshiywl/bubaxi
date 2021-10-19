@@ -1,0 +1,4 @@
+<mat-dialog-content><pre>{{data.text}}</pre></mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button *ngFor="let option of data.options; let i = index" mat-button (click)="close(i, option)">{{option}}</button>
+</mat-dialog-actions>
