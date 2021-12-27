@@ -1,6 +1,12 @@
 export const environment = {
   production: false,
   proxy: {
+    '/vjrnb': {
+      paths: {
+        '/api': 'http://localhost:3100/',
+        '/':    'http://localhost:8100/'
+      }
+    },
     '/sre': {
       paths: {
         // '/api': 'http://localhost:3030/',
