@@ -27,11 +27,10 @@ export class SongsController {
   @Put()
   @UseInterceptors(FileInterceptor('csvFile'))
   async updateSongs(@UploadedFile() file: Express.Multer.File) {
-    throw new HttpException('there is something wrong!', 400);
-    // await this.cacheManager.del('songs');
-    // const csvData = file.buffer.toString();
-    // const rowCount = await this.songsService.uploadSongs(csvData);
-    // return { rowCount };
+    await this.cacheManager.del('songs');
+    const csvData = file.buffer.toString();
+    const rowCount = await this.songsService.uploadSongs(csvData);
+    return { rowCount };
   }
 
 }
