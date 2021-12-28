@@ -32,7 +32,7 @@ export class SongsService {
       stream.on('data', async (row: string[]) => {
         const [ artist, title, style, decade ] = row;
         const song = { artist, title, style, decade };
-        if (!song.artist || !song.title || !song.style) {
+        if (!song.artist || !song.title) {
           console.error('incomplete song', song);
           throw new Error('Incomplete song!');
         }
