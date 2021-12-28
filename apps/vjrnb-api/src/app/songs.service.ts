@@ -3,6 +3,13 @@ import { KnexService } from "./knex.service";
 import * as csv from '@fast-csv/parse';
 import { v5 as uuidv5 } from 'uuid';
 
+export interface Song {
+  artist: string,
+  title: string,
+  style: string,
+  decade?: string
+}
+
 @Injectable()
 export class SongsService {
   private readonly uuidNamespace = '6a7fa79e-4051-44c6-b01f-f47d7970a0a0';
@@ -17,13 +24,23 @@ export class SongsService {
 
   uploadSongs(csvData: string) {
     return new Promise<number>(resolve => {
+      const songs: Song[] = [ ];
       const stream = csv.parseString(csvData, { headers: false, skipRows: 1 });
-      stream.on('error', err => console.error(err));
-      stream.on('end', (rowCount: number) => resolve(rowCount - 1));
+      stream.on('error', err => {
+        throw err;
+      });
       stream.on('data', async (row: string[]) => {
         const [ artist, title, style, decade ] = row;
-        const data = { artist, title, style, decade };
-        await this.uploadSong(data);
+        const song = { artist, title, style, decade };
+        if (!song.artist || !song.title || !song.style) {
+          console.error('incomplete song', song);
+          throw new Error('Incomplete song!');
+        }
+        songs.push(song);
+      });
+      stream.on('end', async (rowCount: number) => {
+        await Promise.all(songs.map(song => this.uploadSong(song)));
+        resolve(rowCount - 1);
       });
     });
   }

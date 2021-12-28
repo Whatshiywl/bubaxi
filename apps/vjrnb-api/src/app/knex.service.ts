@@ -9,7 +9,7 @@ export class KnexService {
 
   constructor() {
     const dev = !environment.production;
-    if (dev) process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
     const instance = knex({
       client: 'postgres',
       connection: {
