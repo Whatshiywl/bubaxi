@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { Song, SongsService } from './songs.service';
-// import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'bubaxi-root',
@@ -15,6 +14,7 @@ export class AppComponent implements OnInit {
   searchForm: FormGroup;
   results: string[] = [];
   resultSubject: Subject<Song[]> = new Subject<Song[]>();
+  err = '';
 
   constructor(
     private songsService: SongsService,
@@ -24,7 +24,6 @@ export class AppComponent implements OnInit {
       text: fb.control('')
     });
     this.searchForm.get('text')?.valueChanges
-    // .pipe(debounceTime(50))
     .subscribe(value => {
       this.filter(value);
     });
@@ -59,7 +58,13 @@ export class AppComponent implements OnInit {
   uploadSongs() {
     if (!this.file) return;
     this.songsService.uploadSongs(this.file).subscribe(res => {
-      console.log(res);
+      if (typeof res.rowCount !== 'undefined') {
+        location.reload();
+      } else {
+        this.err = 'Error updating songs!';
+      }
+    }, err => {
+      this.err = err.error?.message || err.message;
     });
   }
 }

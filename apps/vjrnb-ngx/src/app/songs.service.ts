@@ -23,7 +23,7 @@ export class SongsService {
   uploadSongs(file: File) {
     const formData: FormData = new FormData();
     formData.append('csvFile', file, file.name);
-    return this.http.put('api/songs', formData).pipe(first());
+    return this.http.put<{ rowCount: number }>('api/songs', formData).pipe(first());
   }
 
 }

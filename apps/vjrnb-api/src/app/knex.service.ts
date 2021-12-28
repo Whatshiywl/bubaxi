@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { Knex, knex } from 'knex';
+import { environment } from "../environments/environment";
 
 @Injectable()
 export class KnexService {
@@ -7,7 +8,8 @@ export class KnexService {
   readonly instance: Knex;
 
   constructor() {
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+    const dev = !environment.production;
+    if (dev) process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
     const instance = knex({
       client: 'postgres',
       connection: {
@@ -15,10 +17,25 @@ export class KnexService {
         user : process.env.PG_USER,
         password : process.env.PG_PASSWORD,
         database : process.env.PG_DB,
-        ssl: true
+        ssl: !dev
       }
     });
     this.instance = instance;
+
+    this.init()
+    .catch(err => console.error(err));
+  }
+
+  private async init() {
+    const exists = await this.instance.schema.hasTable('songs');
+    if (exists) return;
+    await this.instance.schema.createTable('songs', table => {
+      table.uuid('id').primary();
+      table.string('artist').notNullable();
+      table.string('title').notNullable();
+      table.string('style').notNullable();
+      table.string('decade').notNullable();
+    });
   }
 
   get songs() {

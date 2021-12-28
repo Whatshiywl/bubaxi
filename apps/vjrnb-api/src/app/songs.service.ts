@@ -34,7 +34,6 @@ export class SongsService {
     style: string,
     decade?: string
   }) {
-    // const baseName = `${song.artist.toLowerCase().trim()},${song.title.toLowerCase().trim()}`;
     const baseName = [
       song.artist,
       song.title
