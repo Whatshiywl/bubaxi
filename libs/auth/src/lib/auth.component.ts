@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, AbstractControlOptions, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, AbstractControlOptions, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { AuthService, FirebaseUser, UserCredential } from './auth.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { AuthService, FirebaseUser, UserCredential } from './auth.service';
 export class AuthComponent implements OnInit {
   user!: FirebaseUser | null;
 
-  credentialForm: FormGroup;
+  credentialForm: UntypedFormGroup;
 
   hidePassword = true;
   signup = false;
@@ -19,7 +19,7 @@ export class AuthComponent implements OnInit {
   passwordResetSent = false;
 
   constructor (
-    fb: FormBuilder,
+    fb: UntypedFormBuilder,
     private auth: AuthService
   ) {
     this.credentialForm = fb.group({

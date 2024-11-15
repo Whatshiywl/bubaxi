@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { merge, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -30,8 +30,8 @@ export interface Filter {
 export class AppComponent {
   listings: CommonListing[] = [];
 
-  filterForm: FormGroup;
-  autoSearch: FormControl;
+  filterForm: UntypedFormGroup;
+  autoSearch: UntypedFormControl;
 
   mapParams!: {
     center: google.maps.LatLngLiteral,
@@ -43,7 +43,7 @@ export class AppComponent {
   hideSeen = false;
 
   constructor(
-    fb: FormBuilder,
+    fb: UntypedFormBuilder,
     private zapService: ZapService,
     private quintoService: QuintoService,
     private dialog: MatDialog,

@@ -1,5 +1,6 @@
-module.exports = {
-  displayName: 'quintozap-ngx',
+/* eslint-disable */
+export default {
+  displayName: 'vjrnb-ngx',
   preset: '../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -8,7 +9,7 @@ module.exports = {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../coverage/apps/quintozap-ngx',
+  coverageDirectory: '../../coverage/apps/vjrnb-ngx',
   transform: {
     '^.+.(ts|mjs|js|html)$': 'jest-preset-angular',
   },

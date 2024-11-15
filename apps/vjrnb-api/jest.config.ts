@@ -1,5 +1,6 @@
-module.exports = {
-  displayName: 'homaxi-api',
+/* eslint-disable */
+export default {
+  displayName: 'vjrnb-api',
   preset: '../../jest.preset.js',
   globals: {
     'ts-jest': {
@@ -11,5 +12,5 @@ module.exports = {
     '^.+\\.[tj]s$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/apps/homaxi-api',
+  coverageDirectory: '../../coverage/apps/vjrnb-api',
 };

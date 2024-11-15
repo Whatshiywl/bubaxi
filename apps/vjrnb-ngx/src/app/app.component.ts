@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { Song, SongsService } from './songs.service';
 
@@ -11,14 +11,14 @@ import { Song, SongsService } from './songs.service';
 export class AppComponent implements OnInit {
   title = 'vjrnb-ngx';
   file!: File;
-  searchForm: FormGroup;
+  searchForm: UntypedFormGroup;
   results: string[] = [];
   resultSubject: Subject<Song[]> = new Subject<Song[]>();
   err = '';
 
   constructor(
     private songsService: SongsService,
-    fb: FormBuilder
+    fb: UntypedFormBuilder
   ) {
     this.searchForm = fb.group({
       text: fb.control('')

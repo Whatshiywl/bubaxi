@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { MatSlider } from '@angular/material/slider';
 import { SliderService } from '../shared/slider.service';
 import { TutorialService } from '../tutorial/tutorial.service';
@@ -15,11 +15,11 @@ export class InteractiveComponent implements AfterViewInit {
   @ViewChild('sloSlider') sloSlider!: MatSlider;
   @ViewChild('slaSlider') slaSlider!: MatSlider;
 
-  appProps: FormGroup;
+  appProps: UntypedFormGroup;
   tutorialVersion = 1;
 
   constructor(
-    fb: FormBuilder,
+    fb: UntypedFormBuilder,
     private sliderService: SliderService,
     private tutorial: TutorialService,
     private util: UtilService

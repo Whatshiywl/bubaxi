@@ -1,5 +1,6 @@
-module.exports = {
-  displayName: 'vjrnb-ngx',
+/* eslint-disable */
+export default {
+  displayName: 'auth',
   preset: '../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -8,7 +9,7 @@ module.exports = {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../coverage/apps/vjrnb-ngx',
+  coverageDirectory: '../../coverage/libs/auth',
   transform: {
     '^.+.(ts|mjs|js|html)$': 'jest-preset-angular',
   },

@@ -1,5 +1,6 @@
-module.exports = {
-  displayName: 'gateway',
+/* eslint-disable */
+export default {
+  displayName: 'homaxi-api',
   preset: '../../jest.preset.js',
   globals: {
     'ts-jest': {
@@ -11,5 +12,5 @@ module.exports = {
     '^.+\\.[tj]s$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/apps/gateway',
+  coverageDirectory: '../../coverage/apps/homaxi-api',
 };

@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, HostListener, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
 import { MatSlider } from '@angular/material/slider';
 import { EngineIterationResult } from '../shared/engine.service';
 import { SliderService } from '../shared/slider.service';
@@ -12,7 +12,7 @@ import { SliderService } from '../shared/slider.service';
 export class GameComponent implements AfterViewInit {
   @ViewChild('sloSlider') sloSlider!: MatSlider;
 
-  appProps: FormGroup;
+  appProps: UntypedFormGroup;
 
   errorBudget = 100;
 
@@ -31,7 +31,7 @@ export class GameComponent implements AfterViewInit {
   debugging = false;
 
   constructor(
-    fb: FormBuilder,
+    fb: UntypedFormBuilder,
     private sliderService: SliderService
   ) {
     this.appProps = fb.group({

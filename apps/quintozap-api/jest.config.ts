@@ -1,5 +1,6 @@
-module.exports = {
-  displayName: 'vjrnb-api',
+/* eslint-disable */
+export default {
+  displayName: 'quintozap-api',
   preset: '../../jest.preset.js',
   globals: {
     'ts-jest': {
@@ -11,5 +12,5 @@ module.exports = {
     '^.+\\.[tj]s$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/apps/vjrnb-api',
+  coverageDirectory: '../../coverage/apps/quintozap-api',
 };
