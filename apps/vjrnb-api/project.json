@@ -13,7 +13,8 @@
         "tsConfig": "apps/vjrnb-api/tsconfig.app.json",
         "assets": ["apps/vjrnb-api/src/assets"],
         "target": "node",
-        "compiler": "tsc"
+        "compiler": "tsc",
+        "webpackConfig": "apps/vjrnb-api/webpack.config.js"
       },
       "configurations": {
         "production": {

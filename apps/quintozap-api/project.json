@@ -16,7 +16,8 @@
           "apps/quintozap-api/src/version"
         ],
         "target": "node",
-        "compiler": "tsc"
+        "compiler": "tsc",
+        "webpackConfig": "apps/quintozap-api/webpack.config.js"
       },
       "configurations": {
         "production": {

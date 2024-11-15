@@ -13,7 +13,8 @@
         "tsConfig": "apps/homaxi-api/tsconfig.app.json",
         "assets": ["apps/homaxi-api/src/assets", "apps/homaxi-api/src/version"],
         "target": "node",
-        "compiler": "tsc"
+        "compiler": "tsc",
+        "webpackConfig": "apps/homaxi-api/webpack.config.js"
       },
       "configurations": {
         "production": {

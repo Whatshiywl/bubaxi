@@ -13,7 +13,8 @@
         "tsConfig": "apps/gateway/tsconfig.app.json",
         "assets": ["apps/gateway/src/assets", "apps/gateway/src/version"],
         "target": "node",
-        "compiler": "tsc"
+        "compiler": "tsc",
+        "webpackConfig": "apps/gateway/webpack.config.js"
       },
       "configurations": {
         "production": {
