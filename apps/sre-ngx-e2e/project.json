@@ -1,0 +1,30 @@
+{
+  "name": "sre-ngx-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/sre-ngx-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/sre-ngx-e2e/cypress.json",
+        "tsConfig": "apps/sre-ngx-e2e/tsconfig.e2e.json",
+        "devServerTarget": "sre-ngx:serve:development"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "sre-ngx:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["apps/sre-ngx-e2e/**/*.{js,ts}"]
+      },
+      "outputs": ["{options.outputFile}"]
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["sre-ngx"]
+}

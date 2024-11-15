@@ -1,0 +1,30 @@
+{
+  "name": "homaxi-ngx-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/homaxi-ngx-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/homaxi-ngx-e2e/cypress.json",
+        "tsConfig": "apps/homaxi-ngx-e2e/tsconfig.e2e.json",
+        "devServerTarget": "homaxi-ngx:serve:development"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "homaxi-ngx:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["apps/homaxi-ngx-e2e/**/*.{js,ts}"]
+      },
+      "outputs": ["{options.outputFile}"]
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["homaxi-ngx"]
+}

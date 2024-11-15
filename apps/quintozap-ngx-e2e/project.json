@@ -1,0 +1,30 @@
+{
+  "name": "quintozap-ngx-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/quintozap-ngx-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/quintozap-ngx-e2e/cypress.json",
+        "tsConfig": "apps/quintozap-ngx-e2e/tsconfig.e2e.json",
+        "devServerTarget": "quintozap-ngx:serve:development"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "quintozap-ngx:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["apps/quintozap-ngx-e2e/**/*.{js,ts}"]
+      },
+      "outputs": ["{options.outputFile}"]
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["quintozap-ngx"]
+}

@@ -1,0 +1,61 @@
+{
+  "name": "homaxi-api",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/homaxi-api/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/homaxi-api",
+        "main": "apps/homaxi-api/src/main.ts",
+        "tsConfig": "apps/homaxi-api/tsconfig.app.json",
+        "assets": ["apps/homaxi-api/src/assets", "apps/homaxi-api/src/version"],
+        "target": "node",
+        "compiler": "tsc"
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/homaxi-api/src/environments/environment.ts",
+              "with": "apps/homaxi-api/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/node:node",
+      "options": {
+        "buildTarget": "homaxi-api:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["apps/homaxi-api/**/*.ts"]
+      },
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/apps/homaxi-api"],
+      "options": {
+        "jestConfig": "apps/homaxi-api/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "docker": {
+      "executor": "./tools/executors/bubaxi:docker"
+    },
+    "deploy": {
+      "executor": "./tools/executors/bubaxi:deploy"
+    }
+  },
+  "tags": []
+}

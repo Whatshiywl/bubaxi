@@ -1,0 +1,61 @@
+{
+  "name": "vjrnb-api",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/vjrnb-api/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/vjrnb-api",
+        "main": "apps/vjrnb-api/src/main.ts",
+        "tsConfig": "apps/vjrnb-api/tsconfig.app.json",
+        "assets": ["apps/vjrnb-api/src/assets"],
+        "target": "node",
+        "compiler": "tsc"
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/vjrnb-api/src/environments/environment.ts",
+              "with": "apps/vjrnb-api/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/node:node",
+      "options": {
+        "buildTarget": "vjrnb-api:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["apps/vjrnb-api/**/*.ts"]
+      },
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/apps/vjrnb-api"],
+      "options": {
+        "jestConfig": "apps/vjrnb-api/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "docker": {
+      "executor": "./tools/executors/bubaxi:docker"
+    },
+    "deploy": {
+      "executor": "./tools/executors/bubaxi:deploy"
+    }
+  },
+  "tags": []
+}
