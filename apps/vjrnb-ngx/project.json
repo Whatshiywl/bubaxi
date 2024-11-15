@@ -59,40 +59,33 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "vjrnb-ngx:build:production"
+          "buildTarget": "vjrnb-ngx:build:production"
         },
         "development": {
-          "browserTarget": "vjrnb-ngx:build:development"
+          "buildTarget": "vjrnb-ngx:build:development"
         }
       },
       "defaultConfiguration": "development",
       "options": {
-        "browserTarget": "vjrnb-ngx:build:development",
-        "port": 8100
+        "port": 8100,
+        "buildTarget": "vjrnb-ngx:build:development"
       }
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "vjrnb-ngx:build"
+        "buildTarget": "vjrnb-ngx:build"
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "options": {
-        "lintFilePatterns": [
-          "apps/vjrnb-ngx/src/**/*.ts",
-          "apps/vjrnb-ngx/src/**/*.html"
-        ]
-      },
+      "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"]
     },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/apps/vjrnb-ngx"],
       "options": {
-        "jestConfig": "apps/vjrnb-ngx/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "apps/vjrnb-ngx/jest.config.ts"
       }
     },
     "docker": {

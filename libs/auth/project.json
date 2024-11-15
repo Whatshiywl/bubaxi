@@ -9,15 +9,11 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/auth"],
       "options": {
-        "jestConfig": "libs/auth/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "libs/auth/jest.config.ts"
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "options": {
-        "lintFilePatterns": ["libs/auth/src/**/*.ts", "libs/auth/src/**/*.html"]
-      },
+      "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"]
     }
   },

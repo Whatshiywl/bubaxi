@@ -39,18 +39,14 @@
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "options": {
-        "lintFilePatterns": ["apps/quintozap-api/**/*.ts"]
-      },
+      "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"]
     },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/apps/quintozap-api"],
       "options": {
-        "jestConfig": "apps/quintozap-api/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "apps/quintozap-api/jest.config.ts"
       }
     },
     "docker": {

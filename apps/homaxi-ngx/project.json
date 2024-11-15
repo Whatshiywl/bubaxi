@@ -63,40 +63,33 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "browserTarget": "homaxi-ngx:build:production"
+          "buildTarget": "homaxi-ngx:build:production"
         },
         "development": {
-          "browserTarget": "homaxi-ngx:build:development"
+          "buildTarget": "homaxi-ngx:build:development"
         }
       },
       "defaultConfiguration": "development",
       "options": {
-        "browserTarget": "homaxi-ngx:build:development",
-        "port": 8010
+        "port": 8010,
+        "buildTarget": "homaxi-ngx:build:development"
       }
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "homaxi-ngx:build"
+        "buildTarget": "homaxi-ngx:build"
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "options": {
-        "lintFilePatterns": [
-          "apps/homaxi-ngx/src/**/*.ts",
-          "apps/homaxi-ngx/src/**/*.html"
-        ]
-      },
+      "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"]
     },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/apps/homaxi-ngx"],
       "options": {
-        "jestConfig": "apps/homaxi-ngx/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "apps/homaxi-ngx/jest.config.ts"
       }
     },
     "docker": {

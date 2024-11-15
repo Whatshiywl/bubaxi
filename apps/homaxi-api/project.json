@@ -36,18 +36,14 @@
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "options": {
-        "lintFilePatterns": ["apps/homaxi-api/**/*.ts"]
-      },
+      "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"]
     },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/apps/homaxi-api"],
       "options": {
-        "jestConfig": "apps/homaxi-api/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "apps/homaxi-api/jest.config.ts"
       }
     },
     "docker": {

@@ -36,18 +36,14 @@
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "options": {
-        "lintFilePatterns": ["apps/gateway/**/*.ts"]
-      },
+      "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"]
     },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/apps/gateway"],
       "options": {
-        "jestConfig": "apps/gateway/jest.config.ts",
-        "passWithNoTests": true
+        "jestConfig": "apps/gateway/jest.config.ts"
       }
     },
     "docker": {
