@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 import { AngularFireModule } from "@angular/fire";
-import { AngularFireAuthModule } from "@angular/fire/auth";
+import { AngularFireAuthModule } from "@angular/fire/compat/auth";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";

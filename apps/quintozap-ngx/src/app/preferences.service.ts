@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
-import { AngularFireAuth } from "@angular/fire/auth";
-import { AngularFirestore, AngularFirestoreCollection } from "@angular/fire/firestore";
+import { AngularFireAuth } from "@angular/fire/compat/auth";
+import { AngularFirestore, AngularFirestoreCollection } from "@angular/fire/compat/firestore";
 import { Subject, Subscription } from "rxjs";
 import { first } from "rxjs/operators";
 import { Filter } from "./app.component";

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
-import firebase from 'firebase/app';
-import 'firebase/auth';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
 
 export type UserCredential = firebase.auth.UserCredential;
 export type FirebaseUser = firebase.User;
