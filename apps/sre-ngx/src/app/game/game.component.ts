@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, HostListener, ViewChild } from '@angular/core';
 import { UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
-import { MatLegacySlider as MatSlider } from '@angular/material/legacy-slider';
+import { MatSlider } from '@angular/material/slider';
 import { EngineIterationResult } from '../shared/engine.service';
 import { SliderService } from '../shared/slider.service';
 

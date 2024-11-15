@@ -21,12 +21,12 @@
       <img [src]="picture" alt="" class="slide-image">
     </ng-template>
   </swiper>
-  <mat-chip-list [selectable]="false">
-    <mat-chip disableRipple [selected]="false">${{listing.totalCost}}</mat-chip>
-    <mat-chip disableRipple>{{listing.area}} m²</mat-chip>
-    <mat-chip disableRipple>{{listing.rooms}} rooms</mat-chip>
-    <mat-chip *ngIf="listing.lastPublicationDate" disableRipple>{{getPublicationTimeInDays()}} days</mat-chip>
-  </mat-chip-list>
+  <mat-chip-listbox [selectable]="false">
+    <mat-chip-option disableRipple [selected]="false">${{listing.totalCost}}</mat-chip-option>
+    <mat-chip-option disableRipple>{{listing.area}} m²</mat-chip-option>
+    <mat-chip-option disableRipple>{{listing.rooms}} rooms</mat-chip-option>
+    <mat-chip-option *ngIf="listing.lastPublicationDate" disableRipple>{{getPublicationTimeInDays()}} days</mat-chip-option>
+  </mat-chip-listbox>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Close</button>

@@ -5,7 +5,7 @@ import SwiperCore, {
   Keyboard,
   Mousewheel
 } from 'swiper';
-import { MatLegacySnackBar as MatSnackBar } from "@angular/material/legacy-snack-bar";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { Filter } from "../app.component";
 import { QuintoService } from "../quinto.service";
 import { StorageService } from "../storage.service";

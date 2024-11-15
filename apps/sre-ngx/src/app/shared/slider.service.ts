@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { AbstractControl } from "@angular/forms";
-import { MatLegacySlider as MatSlider } from "@angular/material/legacy-slider";
+import { MatSlider } from "@angular/material/slider";
 
 @Injectable()
 export class SliderService {

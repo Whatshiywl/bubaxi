@@ -11,7 +11,7 @@
     <mat-drawer class="drawer"
     #drawer mode="over" position="end">
       <bubaxi-auth></bubaxi-auth>
-      <mat-card class="form-wrapper">
+      <mat-card appearance="outlined" class="form-wrapper">
         <form class="filter-form" [formGroup]="filterForm">
           <button mat-raised-button color="primary" class="apply-filter-button" (click)="drawer.toggle() && filter()">Filter</button>
           <div class="form-lines">

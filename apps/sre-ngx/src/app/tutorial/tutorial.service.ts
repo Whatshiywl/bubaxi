@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { MatLegacyDialog as MatDialog } from "@angular/material/legacy-dialog";
+import { MatDialog } from "@angular/material/dialog";
 import { first } from "rxjs/operators";
 import { EngineService } from "../shared/engine.service";
 import { TutorialComponent } from "./tutorial.component";
