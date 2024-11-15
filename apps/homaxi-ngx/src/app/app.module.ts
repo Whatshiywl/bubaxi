@@ -11,7 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
 import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ProjectComponent } from './project/project.component';
 
@@ -19,26 +19,28 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthModule } from '@bubaxi/auth';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    ProjectComponent
-  ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatIconModule,
-    MatGridListModule,
-    MatCardModule,
-    MatSidenavModule,
-    MatFormFieldModule,
-    MatInputModule,
-    AuthModule
-  ],
-  bootstrap: [AppComponent],
+    declarations: [
+        AppComponent,
+        ProjectComponent
+    ],
+    bootstrap: [AppComponent],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatToolbarModule,
+        MatButtonModule,
+        MatIconModule,
+        MatGridListModule,
+        MatCardModule,
+        MatSidenavModule,
+        MatFormFieldModule,
+        MatInputModule,
+        AuthModule
+    ],
+    providers: [
+        provideHttpClient(withInterceptorsFromDi())
+    ]
 })
 export class AppModule {}
