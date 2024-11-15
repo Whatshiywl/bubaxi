@@ -82,7 +82,7 @@
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": [
           "apps/sre-ngx/src/**/*.ts",
@@ -92,7 +92,7 @@
       "outputs": ["{options.outputFile}"]
     },
     "test": {
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/apps/sre-ngx"],
       "options": {
         "jestConfig": "apps/sre-ngx/jest.config.ts",

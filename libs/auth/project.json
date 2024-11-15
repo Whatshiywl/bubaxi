@@ -6,7 +6,7 @@
   "prefix": "bubaxi",
   "targets": {
     "test": {
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/libs/auth"],
       "options": {
         "jestConfig": "libs/auth/jest.config.ts",
@@ -14,7 +14,7 @@
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": ["libs/auth/src/**/*.ts", "libs/auth/src/**/*.html"]
       },

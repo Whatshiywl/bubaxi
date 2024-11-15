@@ -1,4 +1,4 @@
-import { ExecutorContext } from '@nrwl/devkit';
+import { ExecutorContext } from '@nx/devkit';
 import { gcloud, packageJson } from '../common/util';
 import { readFileSync, existsSync } from 'fs';
 import { join } from 'path';
@@ -20,14 +20,23 @@ export default async function dockerExecutor(
   const gcpProjectID = process.env.GCP_PROJECT || options.gcpProject;
   const project = workspace.projects[projectName];
 
-  const buildPath = project?.targets.build?.options?.outputPath || `dist/apps/${projectName}`;
+  const buildPath =
+    project?.targets.build?.options?.outputPath || `dist/apps/${projectName}`;
   const versionFile = join(buildPath, 'version');
 
   const targetPrefix = `${process.env.GCP_REGISTRY_HOST || options.gcpHost}`;
   const targetRepo = `${targetPrefix}/${gcpProjectID}/${projectName}`;
 
-  const fileVersion = existsSync(versionFile) ? readFileSync(versionFile).toString().trim() : '';
-  const version = `${process.env.version || options.version || fileVersion || packageJson.version || 'latest'}`
+  const fileVersion = existsSync(versionFile)
+    ? readFileSync(versionFile).toString().trim()
+    : '';
+  const version = `${
+    process.env.version ||
+    options.version ||
+    fileVersion ||
+    packageJson.version ||
+    'latest'
+  }`;
   const target = `${targetRepo}:${version}`;
 
   const serviceAcc = options.serviceAcc;
@@ -39,7 +48,10 @@ export default async function dockerExecutor(
 
     // Clean up other images
     const digests = readFileSync('digests.env').toString();
-    const digest = digests.split('\n').find(line => line.match(`DIGEST_${projectName.toUpperCase()}`))?.split('=')[1];
+    const digest = digests
+      .split('\n')
+      .find((line) => line.match(`DIGEST_${projectName.toUpperCase()}`))
+      ?.split('=')[1];
     await gcloud.pruneAll(targetRepo, digest);
 
     return { success: true };

@@ -83,7 +83,7 @@
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": [
           "apps/quintozap-ngx/src/**/*.ts",
@@ -93,7 +93,7 @@
       "outputs": ["{options.outputFile}"]
     },
     "test": {
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/apps/quintozap-ngx"],
       "options": {
         "jestConfig": "apps/quintozap-ngx/jest.config.ts",

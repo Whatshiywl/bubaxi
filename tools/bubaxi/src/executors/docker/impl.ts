@@ -1,4 +1,4 @@
-import { ExecutorContext } from '@nrwl/devkit';
+import { ExecutorContext } from '@nx/devkit';
 import { docker, packageJson } from '../common/util';
 import { appendFileSync, readFileSync, existsSync } from 'fs';
 import { join } from 'path';
@@ -23,18 +23,35 @@ export default async function dockerExecutor(
   const gcpProjectID = process.env.GCP_PROJECT || options.gcpProject;
   const project = workspace.projects[projectName];
 
-  const buildPath = options.context || project?.targets.build?.options?.outputPath || `dist/apps/${projectName}`;
-  const dockerfile = options.dockerfile || `${project ? `${project.root}/Dockerfile` : `apps/${projectName}/Dockerfile`}`;
+  const buildPath =
+    options.context ||
+    project?.targets.build?.options?.outputPath ||
+    `dist/apps/${projectName}`;
+  const dockerfile =
+    options.dockerfile ||
+    `${
+      project ? `${project.root}/Dockerfile` : `apps/${projectName}/Dockerfile`
+    }`;
   const versionFile = join(buildPath, 'version');
 
   const remotePrefix = process.env.DOCKER_HUB_REMOTE_REPO || options.remoteHost;
-  const remoteRepo = `${remotePrefix ? `${remotePrefix}/` : ''}${gcpProjectID}_${projectName}`;
+  const remoteRepo = `${
+    remotePrefix ? `${remotePrefix}/` : ''
+  }${gcpProjectID}_${projectName}`;
 
   const gcpPrefix = `${process.env.GCP_REGISTRY_HOST || options.gcpHost}`;
   const gcpRepo = `${gcpPrefix}/${gcpProjectID}/${projectName}`;
 
-  const fileVersion = existsSync(versionFile) ? readFileSync(versionFile).toString().trim() : '';
-  const version = `${process.env.version || options.version || fileVersion || packageJson.version || 'latest'}`;
+  const fileVersion = existsSync(versionFile)
+    ? readFileSync(versionFile).toString().trim()
+    : '';
+  const version = `${
+    process.env.version ||
+    options.version ||
+    fileVersion ||
+    packageJson.version ||
+    'latest'
+  }`;
   const remoteImage = `${remoteRepo}:${version}`;
   const remoteLatest = `${remoteRepo}:latest`;
   const gcpImage = `${gcpRepo}:${version}`;
@@ -43,7 +60,7 @@ export default async function dockerExecutor(
     if (options.build || !options.push) {
       // Build from dist/apps
       await docker.build(dockerfile, remoteImage, {
-        BUILD_PATH: buildPath
+        BUILD_PATH: buildPath,
       });
     }
 
@@ -53,15 +70,15 @@ export default async function dockerExecutor(
       await docker.tag(remoteImage, gcpImage);
 
       // push all tags
-      await Promise.all([
-        docker.push(remoteImage),
-        docker.push(gcpImage)
-      ]);
+      await Promise.all([docker.push(remoteImage), docker.push(gcpImage)]);
       await docker.push(remoteLatest);
 
       // get gcr digest
       const digest = await docker.getDigest(gcpImage);
-      appendFileSync('digests.env', `DIGEST_${projectName.toUpperCase()}=${digest}\n`);
+      appendFileSync(
+        'digests.env',
+        `DIGEST_${projectName.toUpperCase()}=${digest}\n`
+      );
     }
 
     return { success: true };

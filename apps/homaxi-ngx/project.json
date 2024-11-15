@@ -82,7 +82,7 @@
       }
     },
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": [
           "apps/homaxi-ngx/src/**/*.ts",
@@ -92,7 +92,7 @@
       "outputs": ["{options.outputFile}"]
     },
     "test": {
-      "executor": "@nrwl/jest:jest",
+      "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/apps/homaxi-ngx"],
       "options": {
         "jestConfig": "apps/homaxi-ngx/jest.config.ts",
