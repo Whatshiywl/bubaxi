@@ -1,4 +1,5 @@
-import { CacheInterceptor, CacheKey, CACHE_MANAGER, Controller, Get, HttpException, Inject, Put, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { Controller, Get, Inject, Put, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { CacheInterceptor, CacheKey, CACHE_MANAGER } from '@nestjs/cache-manager';
 import { SongsService } from "./songs.service";
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Cache } from 'cache-manager';
@@ -6,7 +7,6 @@ import { Express } from 'express';
 
 // This is a hack to make Multer available in the Express namespace
 import 'multer';
-import { HttpErrorByCode } from "@nestjs/common/utils/http-error-by-code.util";
 
 @Controller('songs')
 export class SongsController {
