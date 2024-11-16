@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { AbstractControl } from "@angular/forms";
-import { ChartDataSets } from "chart.js";
-import { Label } from "ng2-charts";
+import { ChartDataset } from "chart.js";
 import { interval, Observable } from "rxjs";
 import { filter, map } from "rxjs/operators";
 
@@ -21,12 +20,12 @@ export class EngineService {
     SLO: AbstractControl | null,
     SLA: AbstractControl | null
   },
-  labels: Label[],
+  labels: string[],
   data: {
-    SLI: ChartDataSets,
-    SLO: ChartDataSets,
-    SLA: ChartDataSets,
-    errorBudget: ChartDataSets
+    SLI: ChartDataset<'line'>,
+    SLO: ChartDataset<'line'>,
+    SLA: ChartDataset<'line'>,
+    errorBudget: ChartDataset<'line'>
   }): Observable<EngineIterationResult> {
     const requests = 1000;
     const window = 28;

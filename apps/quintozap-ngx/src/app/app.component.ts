@@ -7,6 +7,7 @@ import { PreferencesService } from './preferences.service';
 import { CommonListing, InfoComponent, ListingResult } from './info/info.component';
 import { QuintoService } from './quinto.service';
 import { ZapService } from './zap.service';
+import { MatDrawer } from '@angular/material/sidenav';
 
 export interface Filter {
   mapParams?: {
@@ -34,7 +35,7 @@ export class AppComponent {
   autoSearch: UntypedFormControl;
 
   mapParams!: {
-    center: google.maps.LatLngLiteral,
+    center?: google.maps.LatLngLiteral,
     bounds?: google.maps.LatLngBoundsLiteral
   };
 
@@ -95,14 +96,15 @@ export class AppComponent {
     });
   }
 
-  onBoundsChanged(map: google.maps.Map<Element>) {
-    const center = map.getCenter().toJSON();
+  onBoundsChanged(map: google.maps.Map) {
+    const center = map.getCenter()?.toJSON();
     const bounds = map.getBounds()?.toJSON();
     this.mapParams = { center, bounds };
     if (this.autoSearch.value) this.filter();
   }
 
-  filter() {
+  filter(drawer?: MatDrawer) {
+    if (drawer) drawer.toggle();
     if (!this.mapParams) return;
     const currentFilter: Filter = {
       mapParams: this.mapParams,

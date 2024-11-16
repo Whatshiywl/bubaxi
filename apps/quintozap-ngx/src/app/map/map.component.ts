@@ -15,7 +15,7 @@ import { PreferencesService } from "../preferences.service";
 export class MapComponent implements OnChanges {
   @Input() listings!: CommonListing[];
   @Input() hideSeen = false;
-  @Output() boundsChanged: EventEmitter<google.maps.Map<Element>> = new EventEmitter<google.maps.Map<Element>>();
+  @Output() boundsChanged: EventEmitter<google.maps.Map> = new EventEmitter<google.maps.Map>();
   @Output() listingClicked: EventEmitter<CommonListing> = new EventEmitter<CommonListing>();
   @ViewChild(GoogleMap) gMap!: GoogleMap;
   @ViewChild('mapWrapper') mapWrapper!: ElementRef;
@@ -115,7 +115,7 @@ export class MapComponent implements OnChanges {
   updateMapOptions() {
     const map = this.gMap.googleMap;
     if (!map) return;
-    const center = map.getCenter().toJSON();
+    const center = map.getCenter()?.toJSON();
     const zoom = map.getZoom();
     const mapTypeId = map.getMapTypeId();
     const options: google.maps.MapOptions = {
@@ -133,7 +133,7 @@ export class MapComponent implements OnChanges {
   }
 
   get center() {
-    return this.gMap.googleMap?.getCenter().toJSON();
+    return this.gMap.googleMap?.getCenter()?.toJSON();
   }
 
   getRectLeft(position?: google.maps.LatLngLiteral) {

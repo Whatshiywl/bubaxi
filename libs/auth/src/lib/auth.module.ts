@@ -1,5 +1,5 @@
 import { NgModule } from "@angular/core";
-import { AngularFireModule } from "@angular/fire";
+import { AngularFireModule } from "@angular/fire/compat";
 import { AngularFireAuthModule } from "@angular/fire/compat/auth";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";

@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
-import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
-import { Label, Color } from 'ng2-charts';
+import { ChartDataset, ChartOptions, CommonElementOptions } from 'chart.js';
 import { EngineIterationResult, EngineService } from '../shared/engine.service';
 
 @Component({
@@ -15,57 +14,7 @@ export class GraphComponent implements OnInit {
   @Input() slaControl!: AbstractControl | null;
   @Output() update: EventEmitter<EngineIterationResult> = new EventEmitter<EngineIterationResult>();
 
-  availabilityData: ChartDataSets[] = [
-    { data: [], label: 'SLI', pointRadius: 1 },
-    { data: [], label: 'SLO', pointRadius: 0 },
-    { data: [], label: 'SLA', pointRadius: 0 }
-  ];
-  errorBudgetData: ChartDataSets[] = [
-    { data: [], label: 'Error Budget', pointRadius: 1 },
-  ];
-  lineChartLabels: Label[] = [];
-  availabilityOptions: ChartOptions = {
-    title: {
-      display: true,
-      text: 'Availability'
-    },
-    responsive: true,
-    aspectRatio: 4,
-    tooltips: {
-      enabled: false
-    },
-    scales: {
-      yAxes: [{
-        ticks: {
-          min: 80,
-          max: 100
-        }
-      }]
-    }
-  };
-  errorBudgetOptions: ChartOptions = {
-    title: {
-      display: true,
-      text: 'Error Budget'
-    },
-    legend: {
-      display: false
-    },
-    responsive: true,
-    aspectRatio: 4,
-    tooltips: {
-      enabled: false
-    },
-    scales: {
-      yAxes: [{
-        ticks: {
-          min: 0,
-          max: 100
-        }
-      }]
-    }
-  };
-  lineChartColors: Color[] = [
+  lineChartColors: CommonElementOptions[] = [
     {
       borderColor: 'darkblue',
       borderWidth: 2,
@@ -82,8 +31,59 @@ export class GraphComponent implements OnInit {
       backgroundColor: 'rgba(0,0,0,0)',
     },
   ];
+  availabilityData: ChartDataset<'line'>[] = [
+    { data: [], label: 'SLI', pointRadius: 1, yAxisID: 'yAxis', ...this.lineChartColors[0] },
+    { data: [], label: 'SLO', pointRadius: 0, yAxisID: 'yAxis', ...this.lineChartColors[1] },
+    { data: [], label: 'SLA', pointRadius: 0, yAxisID: 'yAxis', ...this.lineChartColors[2] }
+  ];
+  errorBudgetData: ChartDataset<'line'>[] = [
+    { data: [], label: 'Error Budget', pointRadius: 1, yAxisID: 'yAxis', ...this.lineChartColors[0] },
+  ];
+  lineChartLabels: string[] = [];
+  availabilityOptions: ChartOptions<'line'> = {
+    plugins: {
+      title: {
+        display: true,
+        text: 'Availability'
+      },
+      tooltip: {
+        enabled: false
+      },
+    },
+    responsive: true,
+    aspectRatio: 4,
+    scales: {
+      yAxis: {
+        type: 'linear',
+        min: 80,
+        max: 100
+      }
+    }
+  };
+  errorBudgetOptions: ChartOptions<'line'> = {
+    plugins: {
+      title: {
+        display: true,
+        text: 'Error Budget'
+      },
+      tooltip: {
+        enabled: false
+      },
+      legend: {
+        display: false
+      }
+    },
+    responsive: true,
+    aspectRatio: 4,
+    scales: {
+      yAxis: {
+        type: 'linear',
+        min: 0,
+        max: 100
+      }
+    }
+  };
   lineChartLegend = true;
-  lineChartType: ChartType = 'line';
   lineChartPlugins = [];
 
   constructor(

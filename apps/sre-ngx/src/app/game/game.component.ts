@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, HostListener, ViewChild } from '@angular/core';
 import { UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
-import { MatSlider } from '@angular/material/slider';
+import { MatSliderThumb } from '@angular/material/slider';
 import { EngineIterationResult } from '../shared/engine.service';
 import { SliderService } from '../shared/slider.service';
 
@@ -10,7 +10,7 @@ import { SliderService } from '../shared/slider.service';
   styleUrls: ['./game.component.scss']
 })
 export class GameComponent implements AfterViewInit {
-  @ViewChild('sloSlider') sloSlider!: MatSlider;
+  @ViewChild('sloSlider') sloSlider!: MatSliderThumb;
 
   appProps: UntypedFormGroup;
 

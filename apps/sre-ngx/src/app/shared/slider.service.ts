@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { AbstractControl } from "@angular/forms";
-import { MatSlider } from "@angular/material/slider";
+import { MatSliderThumb } from "@angular/material/slider";
 
 @Injectable()
 export class SliderService {
@@ -13,10 +13,10 @@ export class SliderService {
     return fixedValue;
   }
 
-  setSliderValue(source: MatSlider, logValue: number, inverted?: boolean) {
+  setSliderValue(source: MatSliderThumb, logValue: number, inverted?: boolean) {
     const value = this.logToSliderValue(logValue, inverted);
     source.value = value;
-    source.input.emit({ value, source });
+    source.valueChange.emit(value);
   }
 
   private sliderToLogValue(value: number, inverted?: boolean) {

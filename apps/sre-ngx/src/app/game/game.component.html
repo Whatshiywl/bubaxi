@@ -3,7 +3,7 @@
     <form class="app-form" [formGroup]="appProps">
       <div class="form-element">
         <mat-label>SLO: {{slo}}%</mat-label>
-        <mat-slider min="0" max="1" step="0.01" #sloSlider #ngSlider><input matSliderThumb (input)="setSlider('SLO', {source: ngSliderThumb, parent: ngSlider, value: ngSliderThumb.value}.value || 0, true)" #ngSliderThumb="matSliderThumb" /></mat-slider>
+        <mat-slider min="0" max="1" step="0.01" #ngSlider><input matSliderThumb (input)="setSlider('SLO', {source: ngSliderThumb, parent: ngSlider, value: ngSliderThumb.value}.value || 0, true)" #sloSlider #ngSliderThumb="matSliderThumb" /></mat-slider>
       </div>
 
       <div class="divider"></div>

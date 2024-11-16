@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
-import { MatSlider } from '@angular/material/slider';
+import { MatSliderThumb } from '@angular/material/slider';
 import { SliderService } from '../shared/slider.service';
 import { TutorialService } from '../tutorial/tutorial.service';
 import { UtilService } from '@bubaxi/util';
@@ -11,9 +11,9 @@ import { UtilService } from '@bubaxi/util';
   styleUrls: ['./interactive.component.scss']
 })
 export class InteractiveComponent implements AfterViewInit {
-  @ViewChild('errorSlider') errorSlider!: MatSlider;
-  @ViewChild('sloSlider') sloSlider!: MatSlider;
-  @ViewChild('slaSlider') slaSlider!: MatSlider;
+  @ViewChild('errorSlider') errorSlider!: MatSliderThumb;
+  @ViewChild('sloSlider') sloSlider!: MatSliderThumb;
+  @ViewChild('slaSlider') slaSlider!: MatSliderThumb;
 
   appProps: UntypedFormGroup;
   tutorialVersion = 1;

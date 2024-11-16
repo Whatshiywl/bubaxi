@@ -13,7 +13,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
 import { MatSliderModule } from '@angular/material/slider';
 
-import { ChartsModule } from 'ng2-charts';
+import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 import { AppComponent } from './app.component';
 import { RoutesModule } from './routes.module';
@@ -50,18 +50,22 @@ import { UtilModule } from '@bubaxi/util';
     MatButtonModule,
     MatCardModule,
     MatSliderModule,
-    ChartsModule,
+    BaseChartDirective,
     UtilModule
   ],
   providers: [
     EngineService,
     SliderService,
     TutorialService,
-    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {
-      hasBackdrop: true,
-      disableClose: true,
-      maxWidth: '80%'
-    } as MatDialogConfig}
+    {
+      provide: MAT_DIALOG_DEFAULT_OPTIONS,
+      useValue: {
+        hasBackdrop: true,
+        disableClose: true,
+        maxWidth: '80%'
+      } as MatDialogConfig
+    },
+    provideCharts(withDefaultRegisterables())
   ],
   bootstrap: [AppComponent],
 })

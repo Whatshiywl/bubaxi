@@ -125,7 +125,11 @@ export class AuthComponent implements OnInit {
       return result;
     } catch (error) {
       console.error(error);
-      this.errorMessage = error.message;
+      if (error instanceof Error) {
+        this.errorMessage = error.message;
+      } else {
+        this.errorMessage = 'Unknown error when authenticating';
+      }
       return;
     }
   }
