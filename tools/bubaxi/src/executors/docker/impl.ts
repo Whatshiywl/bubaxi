@@ -19,13 +19,17 @@ export default async function dockerExecutor(
   context: ExecutorContext
 ) {
   console.info(`Executing "docker"...`);
-  const { projectName, workspace } = context;
+  const { projectName, projectsConfigurations } = context;
+  if (!projectName) {
+    console.log('No project name provided, cannot deploy!');
+    return { success: false };
+  }
   const gcpProjectID = process.env.GCP_PROJECT || options.gcpProject;
-  const project = workspace.projects[projectName];
+  const project = projectsConfigurations.projects[projectName];
 
   const buildPath =
     options.context ||
-    project?.targets.build?.options?.outputPath ||
+    project?.targets?.build?.options?.outputPath ||
     `dist/apps/${projectName}`;
   const dockerfile =
     options.dockerfile ||

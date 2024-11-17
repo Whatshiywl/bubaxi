@@ -16,12 +16,16 @@ export default async function dockerExecutor(
   context: ExecutorContext
 ) {
   console.info(`Executing "deploy"...`);
-  const { projectName, workspace } = context;
+  const { projectName, projectsConfigurations } = context;
+  if (!projectName) {
+    console.log('No project name provided, cannot deploy!');
+    return { success: false };
+  }
   const gcpProjectID = process.env.GCP_PROJECT || options.gcpProject;
-  const project = workspace.projects[projectName];
+  const project = projectsConfigurations.projects[projectName];
 
-  const buildPath =
-    project?.targets.build?.options?.outputPath || `dist/apps/${projectName}`;
+  const buildPath: string =
+    project?.targets?.build?.options?.outputPath || `dist/apps/${projectName}`;
   const versionFile = join(buildPath, 'version');
 
   const targetPrefix = `${process.env.GCP_REGISTRY_HOST || options.gcpHost}`;
@@ -52,6 +56,7 @@ export default async function dockerExecutor(
       .split('\n')
       .find((line) => line.match(`DIGEST_${projectName.toUpperCase()}`))
       ?.split('=')[1];
+    if (!digest) throw new Error(`No digest found for image ${targetRepo}!`);
     await gcloud.pruneAll(targetRepo, digest);
 
     return { success: true };

@@ -13,7 +13,7 @@ export function wrappedExec(cmd: string) {
 }
 
 export function wrappedSpawn(cmd: string, args?: readonly string[]) {
-  const spawnName = `${cmd} ${args.join(' ')}`;
+  const spawnName = `${cmd}${args ? ` ${args.join(' ')}` : ''}`;
   console.info(`Spawning ${spawnName}`);
   const start = Date.now();
 
@@ -43,7 +43,7 @@ export function wrappedSpawn(cmd: string, args?: readonly string[]) {
 
 export const docker = {
   build(dockerfile: string, tag: string, args: { [key: string]: string } = { }) {
-    const buildArgs = [ ];
+    const buildArgs: string[] = [ ];
     Object.keys(args).forEach(key => {
       buildArgs.push(`--build-arg`);
       buildArgs.push(`${key}=${args[key]}`);
@@ -109,7 +109,6 @@ export const gcloud = {
   },
 
   async pruneAll(image: string, digest: string) {
-    if (!digest) throw new Error(`No digest found for ${image}!`);
     console.info(`Will delete all ${image} without digest ${digest}`);
     const { stdout, stderr } = await wrappedExec(`gcloud container images list-tags ${image} --filter="digest != ${digest}" --format=json`);
     const tags = JSON.parse(stdout);
