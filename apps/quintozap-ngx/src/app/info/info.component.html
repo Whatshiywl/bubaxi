@@ -10,17 +10,17 @@
   </button>
 </h2>
 <mat-dialog-content class="mat-typography">
-  <swiper
+  <swiper-container
     [slidesPerView]="getSlidesPerView()"
     [spaceBetween]="5"
     [centerInsufficientSlides]="true"
     [keyboard]="true"
     [mousewheel]="{ sensitivity: 1 }"
     [observeParents]="true">
-    <ng-template *ngFor="let picture of listing.pictures" swiperSlide>
+    <swiper-slide *ngFor="let picture of listing.pictures">
       <img [src]="picture" alt="" class="slide-image">
-    </ng-template>
-  </swiper>
+    </swiper-slide>
+  </swiper-container>
   <mat-chip-listbox [selectable]="false">
     <mat-chip-option disableRipple [selected]="false">${{listing.totalCost}}</mat-chip-option>
     <mat-chip-option disableRipple>{{listing.area}} m²</mat-chip-option>

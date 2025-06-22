@@ -1,10 +1,5 @@
 import { Component } from "@angular/core";
 import { Clipboard } from "@angular/cdk/clipboard";
-
-import SwiperCore, {
-  Keyboard,
-  Mousewheel
-} from 'swiper';
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Filter } from "../app.component";
 import { QuintoService } from "../quinto.service";
@@ -36,9 +31,6 @@ export interface ListingResult {
   results: CommonListing[],
   filter: Filter
 }
-
-// install Swiper modules
-SwiperCore.use([Keyboard, Mousewheel]);
 
 @Component({
   standalone: false,

@@ -1,8 +1,8 @@
 <div class="map-wrapper" *ngIf="(apiLoaded | async) && options" #mapWrapper>
   <google-map [options]="options"
-  width="null" height="null"
-  (boundsChanged)="boundsChangedSubject.next()"
-  (maptypeidChanged)="updateMapOptions()">
+    width="null" height="null"
+    (boundsChanged)="boundsChangedSubject.next()"
+    (maptypeidChanged)="updateMapOptions()">
   </google-map>
 </div>
 

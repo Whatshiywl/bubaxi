@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -20,7 +20,6 @@ import { ZapService } from './zap.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { QuintoService } from './quinto.service';
 import { InfoComponent } from './info/info.component';
-import { SwiperModule } from 'swiper/angular';
 import { StorageService } from './storage.service';
 import { AuthModule } from '@bubaxi/auth';
 import { PreferencesService } from './preferences.service';
@@ -42,7 +41,6 @@ import { PreferencesService } from './preferences.service';
     MatIconModule,
     MatDialogModule,
     MatToolbarModule,
-    SwiperModule,
     MatChipsModule,
     ClipboardModule,
     MatButtonModule,
@@ -56,6 +54,7 @@ import { PreferencesService } from './preferences.service';
     StorageService,
     PreferencesService
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

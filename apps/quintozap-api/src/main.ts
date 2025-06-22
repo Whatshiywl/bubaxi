@@ -23,7 +23,7 @@ app.get('/api/googlemapsapikey', (_, res) => {
 app.use('/api/zap', zapRouter);
 app.use('/api/quinto', quintoRouter);
 
-const port = process.env.PORT || 3333;
+const port = process.env.PORT || 3020;
 const server = app.listen(port, () => {
   console.log(`quintozap-api listening at ${port}`);
 });
