@@ -4,6 +4,7 @@ import { ChartDataset, ChartOptions, CommonElementOptions } from 'chart.js';
 import { EngineIterationResult, EngineService } from '../shared/engine.service';
 
 @Component({
+  standalone: false,
   selector: 'bubaxi-sre-graph',
   templateUrl: './graph.component.html',
   styleUrls: ['./graph.component.scss']

@@ -8,6 +8,7 @@ export interface ListingOptions {
 }
 
 @Component({
+  standalone: false,
   selector: 'bubaxi-quintozap-listings',
   templateUrl: './listings.component.html',
   styleUrls: ['./listings.component.scss']

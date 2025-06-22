@@ -5,6 +5,7 @@ import { EngineIterationResult } from '../shared/engine.service';
 import { SliderService } from '../shared/slider.service';
 
 @Component({
+  standalone: false,
   selector: 'bubaxi-sre-game',
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.scss']

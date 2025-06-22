@@ -6,6 +6,7 @@ import { TutorialService } from '../tutorial/tutorial.service';
 import { UtilService } from '@bubaxi/util';
 
 @Component({
+  standalone: false,
   selector: 'bubaxi-sre-interactive',
   templateUrl: './interactive.component.html',
   styleUrls: ['./interactive.component.scss']

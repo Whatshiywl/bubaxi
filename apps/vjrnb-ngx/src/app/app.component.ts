@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 import { Song, SongsService } from './songs.service';
 
 @Component({
+  standalone: false,
   selector: 'bubaxi-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],

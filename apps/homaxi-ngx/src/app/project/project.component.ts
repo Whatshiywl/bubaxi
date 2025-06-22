@@ -8,6 +8,7 @@ export interface Project {
 }
 
 @Component({
+  standalone: false,
   selector: 'bubaxi-homaxi-project',
   templateUrl: './project.component.html',
   styleUrls: ['./project.component.scss']

@@ -41,6 +41,7 @@ export interface ListingResult {
 SwiperCore.use([Keyboard, Mousewheel]);
 
 @Component({
+  standalone: false,
   selector: 'bubaxi-quintozap-info',
   templateUrl: './info.component.html',
   styleUrls: ['./info.component.scss']

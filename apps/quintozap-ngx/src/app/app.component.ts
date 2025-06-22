@@ -24,6 +24,7 @@ export interface Filter {
 }
 
 @Component({
+  standalone: false,
   selector: 'bubaxi-quintozap-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']

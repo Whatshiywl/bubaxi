@@ -2,7 +2,6 @@ import { environment } from './environments/environment';
 import { Options } from "http-proxy-middleware";
 import { join } from 'path';
 
-const logLevel = environment.production ? 'info' : 'info';
 const secure = environment.production;
 
 const proxy: { [path: string]: Options } = { };
@@ -12,13 +11,13 @@ function addProxy(basePath: string, path: string, target: string) {
     target,
     changeOrigin: true,
     secure,
-    logLevel,
     pathRewrite: { }
   };
   if (basePath.length > 1) options.pathRewrite[`^${basePath}`] = '';
   const fullPath = join(basePath, path);
   const willTrim = fullPath.length > 1 && fullPath.endsWith('/');
-  const trimmed = willTrim ? fullPath.substr(0, fullPath.length - 1) : fullPath;
+  const trimmed = willTrim ? fullPath.substring(0, fullPath.length - 1) : fullPath;
+  options.pathFilter = trimmed;
   proxy[trimmed] = options;
 }
 

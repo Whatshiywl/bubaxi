@@ -3,6 +3,7 @@ import { AbstractControl, AbstractControlOptions, UntypedFormBuilder, UntypedFor
 import { AuthService, FirebaseUser, UserCredential } from './auth.service';
 
 @Component({
+  standalone: false,
   selector: 'bubaxi-auth',
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss']

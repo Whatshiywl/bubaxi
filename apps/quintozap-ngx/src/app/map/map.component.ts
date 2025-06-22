@@ -8,6 +8,7 @@ import { ListingOptions } from "../listings/listings.component";
 import { PreferencesService } from "../preferences.service";
 
 @Component({
+  standalone: false,
   selector: 'bubaxi-quintozap-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss']

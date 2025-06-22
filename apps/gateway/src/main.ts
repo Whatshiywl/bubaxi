@@ -23,7 +23,7 @@ app.get('/gateway/api', (req, res) => {
 const routes = Object.keys(proxy);
 for (const route of routes) {
   const options = proxy[route];
-  const proxyMiddleware = createProxyMiddleware(route, options);
+  const proxyMiddleware = createProxyMiddleware(options);
   app.use(proxyMiddleware);
 }
 

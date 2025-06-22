@@ -8,6 +8,7 @@ const comingSoon: Project = {
 };
 
 @Component({
+  standalone: false,
   selector: 'bubaxi-homaxi-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
