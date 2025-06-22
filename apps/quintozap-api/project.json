@@ -37,7 +37,8 @@
     "serve": {
       "executor": "@nx/js:node",
       "options": {
-        "buildTarget": "quintozap-api:build"
+        "buildTarget": "quintozap-api:build",
+        "port": 9020
       }
     },
     "lint": {

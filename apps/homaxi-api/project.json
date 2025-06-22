@@ -34,7 +34,8 @@
     "serve": {
       "executor": "@nx/js:node",
       "options": {
-        "buildTarget": "homaxi-api:build"
+        "buildTarget": "homaxi-api:build",
+        "port": 9010
       }
     },
     "lint": {

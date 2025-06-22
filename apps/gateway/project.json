@@ -34,7 +34,8 @@
     "serve": {
       "executor": "@nx/js:node",
       "options": {
-        "buildTarget": "gateway:build"
+        "buildTarget": "gateway:build",
+        "port": 9333
       }
     },
     "lint": {

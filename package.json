@@ -2,7 +2,10 @@
   "name": "@bubaxi/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "start:quintozap": "nx run-many --parallel 5 -p gateway homaxi-* quintozap-* -c development -t serve",
+    "start:sre": "nx run-many --parallel 4 -p gateway homaxi-* sre-* -c development -t serve"
+  },
   "private": true,
   "devDependencies": {
     "@angular-devkit/build-angular": "~19.2.0",
