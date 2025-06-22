@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, viewChild } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { MatSliderThumb } from '@angular/material/slider';
 import { SliderService } from '../shared/slider.service';
@@ -12,9 +12,9 @@ import { UtilService } from '@bubaxi/util';
   styleUrls: ['./interactive.component.scss']
 })
 export class InteractiveComponent implements AfterViewInit {
-  @ViewChild('errorSlider') errorSlider!: MatSliderThumb;
-  @ViewChild('sloSlider') sloSlider!: MatSliderThumb;
-  @ViewChild('slaSlider') slaSlider!: MatSliderThumb;
+  readonly errorSlider = viewChild.required<MatSliderThumb>('errorSlider');
+  readonly sloSlider = viewChild.required<MatSliderThumb>('sloSlider');
+  readonly slaSlider = viewChild.required<MatSliderThumb>('slaSlider');
 
   appProps: UntypedFormGroup;
   tutorialVersion = 1;
@@ -34,9 +34,9 @@ export class InteractiveComponent implements AfterViewInit {
 
   async ngAfterViewInit() {
     setTimeout(() => {
-      this.sliderService.setSliderValue(this.errorSlider, this.appProps.get('errorRate')?.value);
-      this.sliderService.setSliderValue(this.sloSlider, this.appProps.get('SLO')?.value, true);
-      this.sliderService.setSliderValue(this.slaSlider, this.appProps.get('SLA')?.value, true);
+      this.sliderService.setSliderValue(this.errorSlider(), this.appProps.get('errorRate')?.value);
+      this.sliderService.setSliderValue(this.sloSlider(), this.appProps.get('SLO')?.value, true);
+      this.sliderService.setSliderValue(this.slaSlider(), this.appProps.get('SLA')?.value, true);
     }, 0);
 
     if (this.showTutorial) {
@@ -80,10 +80,10 @@ Try to change them and see how they affect the error budget and the rate at whic
     const result = this.sliderService.setSlider(control, value, inverted);
     if (slider === 'SLO' && result < this.appProps.get('SLA')?.value) {
       this.appProps.get('SLA')?.setValue(result);
-      this.sliderService.setSliderValue(this.slaSlider, this.appProps.get('SLA')?.value, true);
+      this.sliderService.setSliderValue(this.slaSlider(), this.appProps.get('SLA')?.value, true);
     } else if (slider === 'SLA' && result > this.appProps.get('SLO')?.value) {
       this.appProps.get('SLO')?.setValue(result);
-      this.sliderService.setSliderValue(this.sloSlider, this.appProps.get('SLO')?.value, true);
+      this.sliderService.setSliderValue(this.sloSlider(), this.appProps.get('SLO')?.value, true);
     }
   }
 

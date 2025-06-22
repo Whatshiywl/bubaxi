@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, HostListener, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, HostListener, viewChild } from '@angular/core';
 import { UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
 import { MatSliderThumb } from '@angular/material/slider';
 import { EngineIterationResult } from '../shared/engine.service';
@@ -11,7 +11,7 @@ import { SliderService } from '../shared/slider.service';
   styleUrls: ['./game.component.scss']
 })
 export class GameComponent implements AfterViewInit {
-  @ViewChild('sloSlider') sloSlider!: MatSliderThumb;
+  readonly sloSlider = viewChild.required<MatSliderThumb>('sloSlider');
 
   appProps: UntypedFormGroup;
 
@@ -54,7 +54,7 @@ export class GameComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     setTimeout(() => {
-      this.sliderService.setSliderValue(this.sloSlider, this.appProps.get('SLO')?.value, true);
+      this.sliderService.setSliderValue(this.sloSlider(), this.appProps.get('SLO')?.value, true);
     }, 0);
   }
 
@@ -63,7 +63,7 @@ export class GameComponent implements AfterViewInit {
     const result = this.sliderService.setSlider(control, value, inverted);
     if (slider === 'SLO' && result < this.appProps.get('SLA')?.value) {
       this.appProps.get('SLO')?.setValue(this.appProps.get('SLA')?.value);
-      this.sliderService.setSliderValue(this.sloSlider, this.appProps.get('SLO')?.value, true);
+      this.sliderService.setSliderValue(this.sloSlider(), this.appProps.get('SLO')?.value, true);
     }
   }
 

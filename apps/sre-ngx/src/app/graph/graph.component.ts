@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, viewChildren } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { ChartDataset, ChartOptions, CommonElementOptions } from 'chart.js';
 import { EngineIterationResult, EngineService } from '../shared/engine.service';
+import { BaseChartDirective } from 'ng2-charts';
 
 @Component({
   standalone: false,
@@ -14,6 +15,8 @@ export class GraphComponent implements OnInit {
   @Input() sloControl!: AbstractControl | null;
   @Input() slaControl!: AbstractControl | null;
   @Output() update: EventEmitter<EngineIterationResult> = new EventEmitter<EngineIterationResult>();
+
+  charts = viewChildren(BaseChartDirective);
 
   lineChartColors: CommonElementOptions[] = [
     {
@@ -107,6 +110,7 @@ export class GraphComponent implements OnInit {
       }
     ).subscribe(result => {
       this.update.emit(result);
+      for (const c of this.charts()) c.update('none');
     });
   }
 
