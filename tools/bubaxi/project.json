@@ -1,5 +1,5 @@
 {
-  "name": "bubaxi",
+  "name": "bubaxi-nx-tools",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "tools/bubaxi/src",
   "projectType": "library",
