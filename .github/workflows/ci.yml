@@ -6,7 +6,7 @@ on:
       - build
 
 jobs:
-  generate:
+  setup:
     runs-on: ubuntu-latest
     outputs:
       projects: ${{ steps.set-projects.outputs.projects }}
@@ -19,25 +19,42 @@ jobs:
           node-version: 24
           cache: "npm"
       - run: npm ci
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node_modules-
       - name: Get affected projects
         id: set-projects
         run: |
-          PROJECTS=$(npx nx show projects --affected --base=origin/main --json)
-          if [ -z "$PROJECTS" ]; then
-            PROJECTS="[]"
-          fi
+          PROJECTS=$(npx nx show projects --type app -t build --affected --base=origin/main --json)
           echo "projects=$PROJECTS" >> $GITHUB_OUTPUT
 
   build:
-    if: needs.generate.outputs.projects != '[]'
-    needs: generate
+    if: needs.setup.outputs.projects != '[]'
+    needs: setup
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        project: ${{ fromJson(needs.generate.outputs.projects) }}
+        project: ${{ fromJson(needs.setup.outputs.projects) }}
     steps:
-      - name: Print build step
-        run: echo "build ${{ matrix.project }}"
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 24
+      - name: Restore node_modules cache
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node_modules-
+      - name: Build
+        run: npx nx run ${{ matrix.project }}:build
 
   docker:
     needs: build
