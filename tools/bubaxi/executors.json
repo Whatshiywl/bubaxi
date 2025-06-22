@@ -1,9 +1,14 @@
 {
   "executors": {
-    "echo": {
-      "implementation": "./src/executors/echo/impl",
-      "schema": "./src/executors/echo/schema.json",
-      "description": "echo executor"
+    "docker": {
+      "implementation": "./src/executors/docker/impl",
+      "schema": "./src/executors/docker/schema.json",
+      "description": "Builds docker image with generated dist and Dockerfile"
+    },
+    "deploy": {
+      "implementation": "./src/executors/deploy/impl",
+      "schema": "./src/executors/deploy/schema.json",
+      "description": "Deploys project to Cloud Run from a Docker Hub image"
     }
   }
 }

@@ -17,8 +17,7 @@
     "paths": {
       "@bubaxi/auth": ["libs/auth/src/index.ts"],
       "@bubaxi/util": ["libs/util/src/index.ts"],
-      "@bubaxi/tools": ["tools/bubaxi/src/index.ts"],
-      "@bubaxi/nx-sample-js": ["libs/nx-sample-js/src/index.ts"]
+      "@bubaxi/tools": ["tools/bubaxi/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
