@@ -3,27 +3,59 @@ name: CI
 on:
   push:
     branches:
-      - main
-  pull_request:
-
-permissions:
-  actions: read
-  contents: read
+      - build
 
 jobs:
-  main:
+  generate:
     runs-on: ubuntu-latest
+    outputs:
+      projects: ${{ steps.set-projects.outputs.projects }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
       - uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: 24
           cache: "npm"
       - run: npm ci
-      - uses: nrwl/nx-set-shas@v4
+      - name: Get affected projects
+        id: set-projects
+        run: |
+          PROJECTS=$(npx nx show projects --affected --base=origin/main)
+          if [ -z "$PROJECTS" ]; then
+            PROJECTS="[]"
+          fi
+          echo "projects=$PROJECTS" >> $GITHUB_OUTPUT
 
-      - run: npx nx-cloud record -- nx format:check
-      - run: npx nx affected -t lint test build
+  build:
+    if: needs.generate.outputs.projects != '[]'
+    needs: generate
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        project: ${{ fromJson(needs.generate.outputs.projects) }}
+    steps:
+      - name: Print build step
+        run: echo "build ${{ matrix.project }}"
+
+  docker:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print docker step
+        run: echo "docker"
+
+  deploy:
+    needs: docker
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print deploy step
+        run: echo "deploy"
+
+  done:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print done step
+        run: echo "done"
