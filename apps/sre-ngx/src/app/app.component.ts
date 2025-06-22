@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
+  readonly title = 'sre-ngx';
 
   constructor(
     public router: Router

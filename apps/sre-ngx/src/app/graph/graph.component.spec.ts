@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GraphComponent } from './graph.component';
+import { AppModule } from '../app.module';
 
 describe('GraphComponent', () => {
   let component: GraphComponent;
@@ -8,7 +9,7 @@ describe('GraphComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ GraphComponent ]
+      imports: [ AppModule ]
     })
     .compileComponents();
   });
