@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "type": "object",
+  "cli": "nx",
+  "properties": {
+    "gcpProject": {
+      "type": "string",
+      "description": "The GCP project ID"
+    },
+    "context": {
+      "type": "string",
+      "description": "The docker build context. Defaults to the build outputPath"
+    },
+    "dockerfile": {
+      "type": "string",
+      "description": "The dockerfile to be used. Defaults to {appRoot}/Dockerfile"
+    },
+    "remoteHost": {
+      "type": "string",
+      "description": "The remote host prefix. Final repo will be {repo}/{project}_{service}"
+    },
+    "gcpHost": {
+      "type": "string",
+      "description": "The gcr host prefix. Final repo will be {repo}/{project}/{service}"
+    },
+    "version": {
+      "type": "string",
+      "description": "The image tag version. Defaults to 'latest'"
+    },
+    "build": {
+      "type": "boolean",
+      "description": "Weather the job should just build images"
+    },
+    "push": {
+      "type": "boolean",
+      "description": "Weather the job should just tag and push images"
+    }
+  }
+}

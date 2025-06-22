@@ -1,0 +1,10 @@
+<input type="file" name="csv-input" id="csv-input" (change)="onFileInput($event)">
+<button (click)="uploadSongs()">upload</button>
+<pre *ngIf="err" style="overflow: auto;">{{err}}</pre>
+<form [formGroup]="searchForm">
+  <label for="text-search">Search </label>
+  <input type="text" name="text-search" id="text-search" formControlName="text">
+</form>
+<div style="display: flex; flex-direction: column;">
+  <div *ngFor="let item of results" style="border: 1px solid black;">{{item}}</div>
+</div>

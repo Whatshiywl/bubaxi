@@ -1,0 +1,25 @@
+<mat-drawer-container class="drawer-container">
+  <mat-drawer mode="side" opened>
+    <form class="app-form" [formGroup]="appProps">
+      <div class="form-element">
+        <mat-label>Error Rate: {{appProps.get('errorRate')?.value}}%</mat-label>
+        <mat-slider min="0" max="1" step="0.01" #ngSlider><input matSliderThumb (input)="setSlider('errorRate', {source: ngSliderThumb, parent: ngSlider, value: ngSliderThumb.value}.value || 0)" #errorSlider #ngSliderThumb="matSliderThumb" /></mat-slider>
+      </div>
+      <div class="form-element">
+        <mat-label>SLO: {{appProps.get('SLO')?.value}}%</mat-label>
+        <mat-slider min="0" max="1" step="0.01" #ngSlider><input matSliderThumb (input)="setSlider('SLO', {source: ngSliderThumb, parent: ngSlider, value: ngSliderThumb.value}.value || 0, true)" #sloSlider #ngSliderThumb="matSliderThumb" /></mat-slider>
+      </div>
+      <div class="form-element">
+        <mat-label>SLA: {{appProps.get('SLA')?.value}}%</mat-label>
+        <mat-slider min="0" max="1" step="0.01" #ngSlider><input matSliderThumb (input)="setSlider('SLA', {source: ngSliderThumb, parent: ngSlider, value: ngSliderThumb.value}.value || 0, true)" #slaSlider #ngSliderThumb="matSliderThumb" /></mat-slider>
+      </div>
+    </form>
+  </mat-drawer>
+  <mat-drawer-content>
+    <bubaxi-sre-graph
+    [errorRateControl]="appProps.get('errorRate')"
+    [sloControl]="appProps.get('SLO')"
+    [slaControl]="appProps.get('SLA')"
+    ></bubaxi-sre-graph>
+  </mat-drawer-content>
+</mat-drawer-container>

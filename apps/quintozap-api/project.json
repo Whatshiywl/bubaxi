@@ -1,0 +1,61 @@
+{
+  "name": "quintozap-api",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/quintozap-api/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/quintozap-api",
+        "main": "apps/quintozap-api/src/main.ts",
+        "tsConfig": "apps/quintozap-api/tsconfig.app.json",
+        "assets": [
+          "apps/quintozap-api/src/assets",
+          "apps/quintozap-api/src/version"
+        ],
+        "target": "node",
+        "compiler": "tsc",
+        "webpackConfig": "apps/quintozap-api/webpack.config.js"
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/quintozap-api/src/environments/environment.ts",
+              "with": "apps/quintozap-api/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "options": {
+        "buildTarget": "quintozap-api:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/apps/quintozap-api"],
+      "options": {
+        "jestConfig": "apps/quintozap-api/jest.config.ts"
+      }
+    },
+    "docker": {
+      "executor": "./tools/executors/bubaxi:docker"
+    },
+    "deploy": {
+      "executor": "./tools/executors/bubaxi:deploy"
+    }
+  },
+  "tags": []
+}

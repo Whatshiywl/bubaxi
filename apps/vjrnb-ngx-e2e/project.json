@@ -1,0 +1,27 @@
+{
+  "name": "vjrnb-ngx-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/vjrnb-ngx-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nx/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/vjrnb-ngx-e2e/cypress.json",
+        "tsConfig": "apps/vjrnb-ngx-e2e/tsconfig.e2e.json",
+        "devServerTarget": "vjrnb-ngx:serve:development"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "vjrnb-ngx:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["vjrnb-ngx"]
+}

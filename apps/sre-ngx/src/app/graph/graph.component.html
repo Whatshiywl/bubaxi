@@ -1,0 +1,19 @@
+
+<div class="charts">
+  <canvas baseChart
+    [datasets]="availabilityData"
+    [labels]="lineChartLabels"
+    [options]="availabilityOptions"
+    [legend]="lineChartLegend"
+    [type]="'line'"
+    [plugins]="lineChartPlugins">
+  </canvas>
+  <canvas baseChart
+    [datasets]="errorBudgetData"
+    [labels]="lineChartLabels"
+    [options]="errorBudgetOptions"
+    [legend]="lineChartLegend"
+    [type]="'line'"
+    [plugins]="lineChartPlugins">
+  </canvas>
+</div>

@@ -1,0 +1,21 @@
+.drawer-container {
+  height: 100%;
+
+  mat-drawer {
+    padding: 5px;
+
+    .form-element {
+      display: flex;
+      flex-direction: column;
+
+      &:first-of-type {
+        margin-top: 10px;
+      }
+
+      mat-label {
+        width: 100%;
+        font-size: 12px;
+      }
+    }
+  }
+}
