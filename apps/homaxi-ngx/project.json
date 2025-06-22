@@ -4,6 +4,7 @@
   "projectType": "application",
   "sourceRoot": "apps/homaxi-ngx/src",
   "prefix": "bubaxi",
+  "tags": [],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
@@ -98,6 +99,5 @@
     "deploy": {
       "executor": "./tools/executors/bubaxi:deploy"
     }
-  },
-  "tags": []
+  }
 }
