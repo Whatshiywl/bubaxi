@@ -1,0 +1,75 @@
+name: 'Terraform Deploy'
+description: 'Deploys an Nx project to GCP via Terraform'
+inputs:
+  project:
+    description: 'Name of the Nx project to deploy'
+    required: true
+    type: string
+  gcp_sa_key:
+    description: 'GCP Service Account Key JSON'
+    required: true
+    type: string
+
+runs:
+  using: 'composite'
+  steps:
+    - uses: google-github-actions/auth@v2
+      with:
+        credentials_json: ${{ env.GCP_SA_KEY }}
+        project_id: ${{ env.PROJECT_ID }}
+      env:
+        GCP_SA_KEY: ${{ inputs.gcp_sa_key }}
+        PROJECT_ID: bubaxi
+
+    - uses: google-github-actions/setup-gcloud@v2
+
+    - name: Sync dist to GCS
+      shell: bash
+      run: |
+        SRC="dist/apps/${PROJECT}"
+        BUCKET="gs://${{ env.PROJECT_ID }}-${PROJECT}-site"
+        # create bucket if the very first run failed to reach Terraform yet
+        gsutil ls -b "$BUCKET" 2>&1 >/dev/null || \
+          gsutil mb -p $PROJECT_ID -l $REGION "$BUCKET"
+        # mirror build → bucket, delete stale files
+        gsutil -m rsync -r -d "$SRC" "$BUCKET"
+        # (optional) set short cache headers so new deploys are picked up fast
+        gsutil -m setmeta -h "Cache-Control:public,max-age=3600" "$BUCKET/**"
+      env:
+        PROJECT: ${{ inputs.project }}
+        PROJECT_ID: bubaxi
+        REGION: us-central1
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+
+    - name: Terraform init
+      working-directory: infra/${{ env.PROJECT }}
+      shell: bash
+      run: |
+        terraform init \
+          -backend-config=backend.hcl \
+          -backend-config="prefix=$PROJECT"
+      env:
+        PROJECT: ${{ inputs.project }}
+
+    - name: Terraform plan
+      working-directory: infra/${{ env.PROJECT }}
+      shell: bash
+      run: |
+        terraform plan \
+          -var="project_id=${PROJECT_ID}" \
+          -var="region=${REGION}" \
+          -var="app_name=${PROJECT}" -out=tfplan
+      env:
+        PROJECT: ${{ inputs.project }}
+        PROJECT_ID: bubaxi
+        REGION: us-central1
+
+    # - name: Terraform apply
+    #   working-directory: infra/${{ env.PROJECT }}
+    #   shell: bash
+    #   run: |
+    #     terraform apply -auto-approve tfplan
+    #   env:
+    #     PROJECT: ${{ inputs.project }}

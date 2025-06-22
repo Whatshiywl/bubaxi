@@ -55,20 +55,39 @@ jobs:
             ${{ runner.os }}-node_modules-
       - name: Build
         run: npx nx run ${{ matrix.project }}:build
-
-  docker:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Print docker step
-        run: echo "docker"
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.project }}-build
+          path: dist/apps/${{ matrix.project }}
 
   deploy:
-    needs: docker
+    needs:
+      - setup
+      - build
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        project: ${{ fromJson(needs.setup.outputs.projects) }}
     steps:
-      - name: Print deploy step
-        run: echo "deploy"
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          sparse-checkout: |
+            .github
+            infra
+      - name: Download build artifact
+        if: ${{ !cancelled() && (hashFiles(format('infra/{0}/**', matrix.project)) != '') }}
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ matrix.project }}-build
+          path: dist/apps/${{ matrix.project }}
+      - name: Deploy with Terraform
+        if: ${{ !cancelled() && (hashFiles(format('infra/{0}/**', matrix.project)) != '') }}
+        uses: ./.github/actions/terraform-deploy
+        with:
+          project: ${{ matrix.project }}
+          gcp_sa_key: ${{ secrets.GCP_SA_KEY }}
 
   done:
     needs: deploy
