@@ -1,0 +1,9 @@
+{
+  "executors": {
+    "echo": {
+      "implementation": "./src/executors/echo/impl",
+      "schema": "./src/executors/echo/schema.json",
+      "description": "echo executor"
+    }
+  }
+}
