@@ -1,5 +1,5 @@
 import { exec, spawn } from 'child_process';
-import * as pkgJson from '../../../../package.json';
+import * as pkgJson from '../../../package.json';
 export const packageJson = pkgJson;
 
 export function wrappedExec(cmd: string) {
