@@ -86,7 +86,7 @@ jobs:
         if: ${{ !cancelled() && (hashFiles(format('infra/{0}/**', matrix.project)) != '') }}
         uses: ./.github/actions/terraform-deploy
         with:
-          project: ${{ matrix.project }}
+          nx_project: ${{ matrix.project }}
           gcp_sa_key: ${{ secrets.GCP_SA_KEY }}
 
   done:

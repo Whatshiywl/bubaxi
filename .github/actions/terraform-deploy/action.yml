@@ -1,7 +1,7 @@
 name: 'Terraform Deploy'
 description: 'Deploys an Nx project to GCP via Terraform'
 inputs:
-  project:
+  nx_project:
     description: 'Name of the Nx project to deploy'
     required: true
     type: string
@@ -9,67 +9,51 @@ inputs:
     description: 'GCP Service Account Key JSON'
     required: true
     type: string
+  gcp_project_id:
+    description: 'GCP Project ID'
+    required: false
+    type: string
+    default: 'bubaxi'
+  gcp_region:
+    description: 'GCP Region for deployment'
+    required: false
+    type: string
+    default: 'us-central1'
 
 runs:
   using: 'composite'
   steps:
     - uses: google-github-actions/auth@v2
       with:
-        credentials_json: ${{ env.GCP_SA_KEY }}
-        project_id: ${{ env.PROJECT_ID }}
-      env:
-        GCP_SA_KEY: ${{ inputs.gcp_sa_key }}
-        PROJECT_ID: bubaxi
+        credentials_json: ${{ inputs.gcp_sa_key }}
+        project_id: ${{ inputs.gcp_project_id }}
 
     - uses: google-github-actions/setup-gcloud@v2
-
-    - name: Sync dist to GCS
-      shell: bash
-      run: |
-        SRC="dist/apps/${PROJECT}"
-        BUCKET="gs://${{ env.PROJECT_ID }}-${PROJECT}-site"
-        # create bucket if the very first run failed to reach Terraform yet
-        gsutil ls -b "$BUCKET" 2>&1 >/dev/null || \
-          gsutil mb -p $PROJECT_ID -l $REGION "$BUCKET"
-        # mirror build → bucket, delete stale files
-        gsutil -m rsync -r -d "$SRC" "$BUCKET"
-        # (optional) set short cache headers so new deploys are picked up fast
-        gsutil -m setmeta -h "Cache-Control:public,max-age=3600" "$BUCKET/**"
-      env:
-        PROJECT: ${{ inputs.project }}
-        PROJECT_ID: bubaxi
-        REGION: us-central1
 
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v3
 
     - name: Terraform init
-      working-directory: infra/${{ env.PROJECT }}
+      working-directory: infra/${{ inputs.nx_project }}
       shell: bash
       run: |
         terraform init \
           -backend-config=backend.hcl \
-          -backend-config="prefix=$PROJECT"
-      env:
-        PROJECT: ${{ inputs.project }}
+          -backend-config="prefix=${{ inputs.nx_project }}"
 
     - name: Terraform plan
-      working-directory: infra/${{ env.PROJECT }}
+      working-directory: infra/${{ inputs.nx_project }}
       shell: bash
       run: |
         terraform plan \
-          -var="project_id=${PROJECT_ID}" \
-          -var="region=${REGION}" \
-          -var="app_name=${PROJECT}" -out=tfplan
-      env:
-        PROJECT: ${{ inputs.project }}
-        PROJECT_ID: bubaxi
-        REGION: us-central1
+          -var="project_id=${{ inputs.gcp_project_id }}" \
+          -var="region=${{ inputs.gcp_region }}" \
+          -var="app_name=${{ inputs.nx_project }}" \
+          -var="build_dir=../../dist/apps/${{ inputs.nx_project }}" \
+          -out=tfplan
 
-    # - name: Terraform apply
-    #   working-directory: infra/${{ env.PROJECT }}
-    #   shell: bash
-    #   run: |
-    #     terraform apply -auto-approve tfplan
-    #   env:
-    #     PROJECT: ${{ inputs.project }}
+    - name: Terraform apply
+      working-directory: infra/${{ inputs.nx_project }}
+      shell: bash
+      run: |
+        terraform apply -auto-approve tfplan
