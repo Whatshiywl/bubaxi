@@ -22,7 +22,7 @@ jobs:
       - name: Get affected projects
         id: set-projects
         run: |
-          PROJECTS=$(npx nx show projects --affected --base=origin/main)
+          PROJECTS=$(npx nx show projects --affected --base=origin/main --json)
           if [ -z "$PROJECTS" ]; then
             PROJECTS="[]"
           fi
