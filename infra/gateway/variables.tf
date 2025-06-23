@@ -9,4 +9,8 @@ locals {
     for f in fileset(local.abs_build_dir, "**") :
       filesha1("${local.abs_build_dir}/${f}")
   ]))
+  dockerfile_hash = filesha256("${path.module}/Dockerfile")
+  repository_id = "${var.app_name}-repo"
+  image_uri = "${var.region}-docker.pkg.dev/${var.project_id}/${local.repository_id}/${var.app_name}:${local.image_tag}"
+  image_tag = "latest"
 }

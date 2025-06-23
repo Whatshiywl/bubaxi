@@ -54,7 +54,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node_modules-
       - name: Build
-        run: npx nx run ${{ matrix.project }}:build
+        run: npx nx run ${{ matrix.project }}:build:production
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
