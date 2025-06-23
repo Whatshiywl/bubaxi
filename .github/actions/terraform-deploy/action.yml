@@ -38,7 +38,7 @@ runs:
       shell: bash
       run: |
         terraform init \
-          -backend-config=backend.hcl \
+          -backend-config="bucket=bubaxi-tf-state" \
           -backend-config="prefix=${{ inputs.nx_project }}"
 
     - name: Terraform plan
