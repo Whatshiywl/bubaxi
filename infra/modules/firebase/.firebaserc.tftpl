@@ -1,0 +1,14 @@
+${jsonencode(
+  {
+    "projects": {
+      "default": "${project_id}"
+    },
+    "targets": {
+      "${project_id}": {
+        "hosting": {
+          "${app_name}": ["${site_name}"]
+        }
+      }
+    }
+  }
+)}

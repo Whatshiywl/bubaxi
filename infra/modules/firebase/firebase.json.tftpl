@@ -1,0 +1,21 @@
+${jsonencode(
+  {
+    "hosting": [
+      {
+        "target": "${app_name}",
+        "public": "${build_dir}",
+        "ignore": [
+          "firebase.json",
+          "**/.*",
+          "**/node_modules/**"
+        ],
+        "rewrites": [
+          {
+            "source": "**",
+            "destination": "/index.html"
+          }
+        ]
+      }
+    ]
+  }
+)}

@@ -19,6 +19,11 @@ inputs:
     required: false
     type: string
     default: 'us-central1'
+  setup_firebase:
+    description: 'Whether to setup Firebase cli'
+    required: false
+    type: boolean
+    default: false
 
 runs:
   using: 'composite'
@@ -29,6 +34,12 @@ runs:
         project_id: ${{ inputs.gcp_project_id }}
 
     - uses: google-github-actions/setup-gcloud@v2
+
+    - name: Install firebase cli
+      if: ${{ inputs.setup_firebase }}
+      shell: bash
+      run: |
+        npm install -g firebase-tools
 
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v3
@@ -49,7 +60,7 @@ runs:
           -var="project_id=${{ inputs.gcp_project_id }}" \
           -var="region=${{ inputs.gcp_region }}" \
           -var="app_name=${{ inputs.nx_project }}" \
-          -var="build_dir=../../dist/apps/${{ inputs.nx_project }}" \
+          -var="build_dir=dist/apps/${{ inputs.nx_project }}" \
           -out=tfplan
 
     - name: Terraform apply
