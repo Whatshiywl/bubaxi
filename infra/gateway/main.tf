@@ -79,3 +79,31 @@ resource "google_cloud_run_service_iam_member" "public_invoker" {
   role     = "roles/run.invoker"
   member   = "allUsers"
 }
+
+resource "google_cloud_run_domain_mapping" "api" {
+  location = var.region
+  name     = "api.bubaxi.com"
+
+  metadata {
+    namespace = var.project_id
+  }
+
+  spec {
+    route_name = google_cloud_run_service.service.name
+  }
+}
+
+data "cloudflare_zones" "bubaxi" {
+  filter {
+    name = "bubaxi.com"
+  }
+}
+
+resource "cloudflare_record" "cloudrun_api" {
+  zone_id = data.cloudflare_zones.bubaxi.zones[0].id
+  name    = "api"
+  type    = "CNAME"
+  value   = "ghs.googlehosted.com"
+  ttl     = 300
+  proxied = false  # Cloud Run won't work if proxied through Cloudflare
+}

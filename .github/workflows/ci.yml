@@ -88,6 +88,7 @@ jobs:
         with:
           nx_project: ${{ matrix.project }}
           gcp_sa_key: ${{ secrets.GCP_SA_KEY }}
+          cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           setup_firebase: ${{ endsWith(matrix.project, '-ngx') }}
 
   done:

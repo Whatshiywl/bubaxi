@@ -24,6 +24,10 @@ inputs:
     required: false
     type: boolean
     default: false
+  cloudflare_api_token:
+    description: 'Cloudflare API Token for custom domain setup'
+    required: false
+    type: string
 
 runs:
   using: 'composite'
@@ -62,9 +66,13 @@ runs:
           -var="app_name=${{ inputs.nx_project }}" \
           -var="build_dir=dist/apps/${{ inputs.nx_project }}" \
           -out=tfplan
+      env:
+        TF_VAR_cloudflare_api_token: ${{ inputs.cloudflare_api_token }}
 
     - name: Terraform apply
       working-directory: infra/${{ inputs.nx_project }}
       shell: bash
       run: |
         terraform apply -auto-approve tfplan
+      env:
+        TF_VAR_cloudflare_api_token: ${{ inputs.cloudflare_api_token }}
