@@ -1,18 +1,11 @@
 resource "local_file" "firebaserc" {
-  content  = templatefile("${path.module}/.firebaserc.tftpl", {
-    project_id = var.project_id
-    app_name   = var.app_name
-    site_name  = var.site_name
-  })
-  filename = "${path.module}/../../../.firebaserc"
+  content  = local.firebaserc_content
+  filename = local.firebaserc_output_path
 }
 
 resource "local_file" "firebase_json" {
-  content  = templatefile("${path.module}/firebase.json.tftpl", {
-    app_name   = var.app_name
-    build_dir  = var.build_dir
-  })
-  filename = "${path.module}/../../../firebase.json"
+  content  = local.firebase_json_content
+  filename = local.firebase_json_output_path
 }
 
 resource "null_resource" "firebase_deploy" {
