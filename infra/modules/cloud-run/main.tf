@@ -28,8 +28,7 @@ resource "null_resource" "build_and_push" {
 
   # Re-run if the Dockerfile or compiled output changes.
   triggers = {
-    assets_hash     = local.assets_hash
-    dockerfile_hash = local.dockerfile_hash
+    image_url = local.image_uri
   }
 
   provisioner "local-exec" {

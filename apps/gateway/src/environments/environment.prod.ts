@@ -18,11 +18,12 @@ export const environment = {
         '/':    'https://quintozap-ngx-2bfaoux6cq-uc.a.run.app/'
       }
     },
-    '/': {
-      paths: {
-        '/api': 'https://homaxi-api-2bfaoux6cq-uc.a.run.app/',
-        '/':    'https://homaxi-ngx-2bfaoux6cq-uc.a.run.app/'
-      }
-    }
-  }
+    // '/': {
+    //   paths: {
+    //     '/api': 'https://homaxi-api-2bfaoux6cq-uc.a.run.app/',
+    //     '/':    'https://homaxi-ngx-2bfaoux6cq-uc.a.run.app/'
+    //   }
+    // }
+  },
+  corsAllowedOrigins: ['bubaxi.com']
 };

@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Project } from './project/project.component';
+import { HttpClient } from '@angular/common/http';
+import { catchError, of } from 'rxjs';
+import { environment } from '../environments/environment';
 
 const comingSoon: Project = {
   name: 'Coming Soon',
@@ -33,8 +36,15 @@ export class AppComponent implements OnInit {
     comingSoon
   ];
 
+  constructor(private httpClient: HttpClient) {}
+
   ngOnInit() {
     this.setGridCols();
+    this.httpClient.get(`${environment.apiLocation}/api`)
+    .pipe(catchError(err => {
+      console.error(err);
+      return of();
+    })).subscribe(res => console.log(res));
   }
 
   setGridCols() {

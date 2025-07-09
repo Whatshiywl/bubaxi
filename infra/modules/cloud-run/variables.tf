@@ -30,8 +30,8 @@ locals {
   dockerfile_path = var.dockerfile != "" ? "${path.root}/${var.dockerfile}" : "${path.module}/Dockerfile"
   dockerfile_hash = filesha256(local.dockerfile_path)
   repository_id = "${var.app_name}-repo"
+  image_tag = sha1("${local.assets_hash}${local.dockerfile_hash}")
   image_uri = "${var.region}-docker.pkg.dev/${var.project_id}/${local.repository_id}/${var.app_name}:${local.image_tag}"
-  image_tag = "latest"
   service_name = var.service_name != "" ? var.service_name : var.app_name
   domain_name = var.domain_prefix != "" ? "${var.domain_prefix}.bubaxi.com" : "bubaxi.com"
 }

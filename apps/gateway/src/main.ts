@@ -3,21 +3,44 @@
  * This is only a minimal backend to get started.
  */
 
-import * as express from 'express';
+import express from 'express';
+import cors from 'cors';
 import proxy from './proxy';
 import { createProxyMiddleware } from 'http-proxy-middleware';
+import { environment } from './environments/environment';
 
 const app = express();
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
 
-app.all('/gateway/api/webhook', (req, res) => {
+    const isAllowed = environment.corsAllowedOrigins.some(entry => {
+      if (typeof entry === 'string') {
+        return origin === `https://${entry}` || origin.endsWith(`.${entry}`);
+      }
+      if (entry instanceof RegExp) {
+        return entry.test(origin);
+      }
+      return false;
+    });
+
+    if (isAllowed) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+}));
+
+app.all('/api/webhook', (req, res) => {
   const { method, headers, query, body } = req;
   const request = { method, headers, query, body };
   console.log('req', request);
   res.send({ success: true, request });
 });
 
-app.get('/gateway/api', (req, res) => {
-  res.send({ message: 'Welcome to gateway!' });
+app.get('/api', (req, res) => {
+  res.send({ message: 'Welcome to gateway! :D' });
 });
 
 const routes = Object.keys(proxy);

@@ -19,11 +19,12 @@ export const environment = {
         '/':    'http://localhost:8020/'
       }
     },
-    '/': {
-      paths: {
-        '/api': 'http://localhost:3010/',
-        '/':    'http://localhost:8010/'
-      }
-    }
-  }
+    // '/': {
+    //   paths: {
+    //     '/api': 'http://localhost:3010/',
+    //     '/':    'http://localhost:8010/'
+    //   }
+    // }
+  },
+  corsAllowedOrigins: [/^http:\/\/localhost:\d+$/]
 };
