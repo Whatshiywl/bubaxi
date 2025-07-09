@@ -7,6 +7,6 @@ resource "google_artifact_registry_repository_iam_member" "cloud_build_writer" {
   member = "serviceAccount:${local.cloud_build_sa}"
 }
 
-output "iam_ready" {
+output "ready" {
   value = true
 }
