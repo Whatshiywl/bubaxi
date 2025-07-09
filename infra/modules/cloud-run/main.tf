@@ -1,7 +1,8 @@
 resource "google_storage_bucket" "build_logs" {
-  name     = "${var.project_id}-build-logs"
+  name     = "${var.project_id}-${var.app_name}-build-logs"
   location = var.region
   uniform_bucket_level_access = true
+  force_destroy = true
 }
 
 resource "google_artifact_registry_repository" "repo" {
