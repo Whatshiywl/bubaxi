@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Project } from './project/project.component';
-import { GatewayHttpClient } from '@bubaxi/gateway-http';
+import { GatewayHttpClient, HomaxiHttpClient } from '@bubaxi/gateway-http';
 
 const comingSoon: Project = {
   name: 'Coming Soon',
@@ -13,7 +13,10 @@ const comingSoon: Project = {
   selector: 'bubaxi-homaxi-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  providers: [GatewayHttpClient]
+  providers: [
+    GatewayHttpClient,
+    HomaxiHttpClient
+  ]
 })
 export class AppComponent implements OnInit {
   gridCols = 1;
@@ -35,10 +38,14 @@ export class AppComponent implements OnInit {
     comingSoon
   ];
 
-  constructor(private client: GatewayHttpClient) {}
+  constructor(
+    private gatewayClient: GatewayHttpClient,
+    private homaxiClient: HomaxiHttpClient
+  ) {}
 
   ngOnInit() {
-    this.client.getGatewayHello().subscribe(res => console.log(res));
+    this.gatewayClient.getHello().subscribe(console.log);
+    // this.homaxiClient.getHello().subscribe(console.log);
     this.setGridCols();
   }
 

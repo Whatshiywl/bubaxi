@@ -1,13 +1,13 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { catchError, of } from "rxjs";
-import { GatewayHelloResponse } from '@bubaxi/api-types';
+import { HomaxiHelloResponse } from '@bubaxi/api-types';
 import { BaseHttpClient } from './shared/base-http-client';
 import { HttpClientConfigService } from './shared/http-client-config.service';
 
 @Injectable()
-export class GatewayHttpClient extends BaseHttpClient {
-  protected readonly servicePath = 'gateway';
+export class HomaxiHttpClient extends BaseHttpClient {
+  protected readonly servicePath = 'homaxi';
 
   constructor(
     http: HttpClient,
@@ -17,7 +17,7 @@ export class GatewayHttpClient extends BaseHttpClient {
   }
 
   getHello() {
-    return this.get<GatewayHelloResponse>('')
+    return this.get<HomaxiHelloResponse>('')
       .pipe(catchError(err => {
         console.error(err);
         return of();
