@@ -16,8 +16,9 @@
     "baseUrl": ".",
     "paths": {
       "@bubaxi/auth": ["libs/auth/src/index.ts"],
-      "@bubaxi/util": ["libs/util/src/index.ts"],
-      "@bubaxi/tools": ["tools/bubaxi/src/index.ts"]
+      "@bubaxi/gateway-http": ["libs/gateway-http/src/index.ts"],
+      "@bubaxi/tools": ["tools/bubaxi/src/index.ts"],
+      "@bubaxi/util": ["libs/util/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

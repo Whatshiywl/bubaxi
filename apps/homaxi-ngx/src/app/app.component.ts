@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Project } from './project/project.component';
-import { HttpClient } from '@angular/common/http';
-import { catchError, of } from 'rxjs';
-import { environment } from '../environments/environment';
+import { GatewayHttpClient } from '@bubaxi/gateway-http';
 
 const comingSoon: Project = {
   name: 'Coming Soon',
@@ -15,6 +13,7 @@ const comingSoon: Project = {
   selector: 'bubaxi-homaxi-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  providers: [GatewayHttpClient]
 })
 export class AppComponent implements OnInit {
   gridCols = 1;
@@ -36,15 +35,11 @@ export class AppComponent implements OnInit {
     comingSoon
   ];
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private client: GatewayHttpClient) {}
 
   ngOnInit() {
+    this.client.getGatewayHello().subscribe(res => console.log(res));
     this.setGridCols();
-    this.httpClient.get(`${environment.apiLocation}/api`)
-    .pipe(catchError(err => {
-      console.error(err);
-      return of();
-    })).subscribe(res => console.log(res));
   }
 
   setGridCols() {

@@ -32,14 +32,14 @@ app.use(cors({
   }
 }));
 
-app.all('/api/webhook', (req, res) => {
+app.all('/gateway/webhook', (req, res) => {
   const { method, headers, query, body } = req;
   const request = { method, headers, query, body };
   console.log('req', request);
   res.send({ success: true, request });
 });
 
-app.get('/api', (req, res) => {
+app.get('/gateway', (req, res) => {
   res.send({ message: 'Welcome to gateway! :D' });
 });
 
