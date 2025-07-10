@@ -8,6 +8,7 @@ import cors from 'cors';
 import proxy from './proxy';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { environment } from './environments/environment';
+import gatewayRouter from './routes/gateway.route';
 
 const app = express();
 app.use(cors({
@@ -32,16 +33,7 @@ app.use(cors({
   }
 }));
 
-app.all('/gateway/webhook', (req, res) => {
-  const { method, headers, query, body } = req;
-  const request = { method, headers, query, body };
-  console.log('req', request);
-  res.send({ success: true, request });
-});
-
-app.get('/gateway', (req, res) => {
-  res.send({ message: 'Welcome to gateway! :D' });
-});
+app.use('/gateway', gatewayRouter);
 
 const routes = Object.keys(proxy);
 for (const route of routes) {

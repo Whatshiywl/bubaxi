@@ -1,6 +1,7 @@
 import { Injectable, isDevMode } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { catchError, of } from "rxjs";
+import { GatewayHelloResponse } from '@bubaxi/api-types';
 
 @Injectable()
 export class GatewayHttpClient {
@@ -15,7 +16,7 @@ export class GatewayHttpClient {
   }
 
   getGatewayHello() {
-    return this.http.get(`${this.baseApiUrl}/gateway`)
+    return this.http.get<GatewayHelloResponse>(`${this.baseApiUrl}/gateway`)
       .pipe(catchError(err => {
         console.error(err);
         return of();

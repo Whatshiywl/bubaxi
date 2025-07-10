@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@bubaxi/api-types": ["libs/api-types/src/index.ts"],
       "@bubaxi/auth": ["libs/auth/src/index.ts"],
       "@bubaxi/gateway-http": ["libs/gateway-http/src/index.ts"],
       "@bubaxi/tools": ["tools/bubaxi/src/index.ts"],
