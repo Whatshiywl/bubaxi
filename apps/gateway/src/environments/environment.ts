@@ -19,6 +19,11 @@ export const environment = {
         '/':    'http://localhost:8020/'
       }
     },
+    '/homaxi': {
+      paths: {
+        '/': 'http://localhost:3010'
+      }
+    }
     // '/': {
     //   paths: {
     //     '/api': 'http://localhost:3010/',

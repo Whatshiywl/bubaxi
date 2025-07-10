@@ -3,6 +3,6 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class AppService {
   getData() {
-    return { message: 'Welcome to homaxi-api!' };
+    return { message: 'Welcome to homaxi-api! :D' };
   }
 }

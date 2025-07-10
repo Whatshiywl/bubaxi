@@ -45,7 +45,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.gatewayClient.getHello().subscribe(console.log);
-    // this.homaxiClient.getHello().subscribe(console.log);
+    this.homaxiClient.getHello().subscribe(console.log);
     this.setGridCols();
   }
 

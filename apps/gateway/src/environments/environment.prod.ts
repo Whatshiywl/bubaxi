@@ -18,6 +18,11 @@ export const environment = {
         '/':    'https://quintozap-ngx-2bfaoux6cq-uc.a.run.app/'
       }
     },
+    '/homaxi': {
+      paths: {
+        '/': 'https://homaxi-api-dev-975830665753.us-central1.run.app/'
+      }
+    }
     // '/': {
     //   paths: {
     //     '/api': 'https://homaxi-api-2bfaoux6cq-uc.a.run.app/',
