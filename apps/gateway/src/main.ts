@@ -5,10 +5,10 @@
 
 import express from 'express';
 import cors from 'cors';
-import proxy from './proxy';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { environment } from './environments/environment';
 import gatewayRouter from './routes/gateway.route';
+import { createDynamicProxy, initializeServiceDiscovery } from './dynamic-proxy';
 
 const app = express();
 app.use(cors({
@@ -35,15 +35,55 @@ app.use(cors({
 
 app.use('/gateway', gatewayRouter);
 
-const routes = Object.keys(proxy);
-for (const route of routes) {
-  const options = proxy[route];
-  const proxyMiddleware = createProxyMiddleware(options);
-  app.use(proxyMiddleware);
+// Initialize service discovery and setup dynamic routing
+async function setupRoutes() {
+  console.log('🔧 Setting up dynamic routes...');
+
+  // Initialize service discovery
+  await initializeServiceDiscovery();
+
+  // Create dynamic proxy configuration
+  const proxy = createDynamicProxy();
+
+  // Setup proxy middleware for each route
+  const routes = Object.keys(proxy);
+  for (const route of routes) {
+    const options = proxy[route];
+    const proxyMiddleware = createProxyMiddleware(options);
+    app.use(proxyMiddleware);
+    console.log(`🛣️  Route configured: ${route} -> ${options.target}`);
+  }
+
+  console.log('✅ Dynamic routes setup complete');
 }
 
 const port = process.env.PORT || 3333;
-const server = app.listen(port, () => {
-  console.log(`Listening on port ${port}`);
-});
-server.on('error', console.error);
+
+// Start the server
+async function startServer() {
+  try {
+    await setupRoutes();
+
+    const server = app.listen(port, () => {
+      console.log(`🚀 Gateway server listening on port ${port}`);
+      console.log(`🌍 Environment: ${environment.production ? 'production' : 'development'}`);
+    });
+
+    server.on('error', console.error);
+
+    // Graceful shutdown
+    process.on('SIGTERM', () => {
+      console.log('🛑 Received SIGTERM, shutting down gracefully');
+      server.close(() => {
+        console.log('👋 Server closed');
+        process.exit(0);
+      });
+    });
+
+  } catch (error) {
+    console.error('❌ Failed to start server:', error);
+    process.exit(1);
+  }
+}
+
+startServer();

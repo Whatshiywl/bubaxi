@@ -57,6 +57,15 @@ resource "google_cloud_run_service" "service" {
           name           = "http1"
           container_port = 8080
         }
+
+        # Environment variables
+        dynamic "env" {
+          for_each = var.env_vars
+          content {
+            name  = env.key
+            value = env.value
+          }
+        }
       }
     }
   }

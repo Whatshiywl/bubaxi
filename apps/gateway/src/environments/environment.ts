@@ -9,7 +9,6 @@ export const environment = {
     },
     '/sre': {
       paths: {
-        // '/api': 'http://localhost:3030/',
         '/':    'http://localhost:8030/'
       }
     },
@@ -24,12 +23,6 @@ export const environment = {
         '/': 'http://localhost:3010'
       }
     }
-    // '/': {
-    //   paths: {
-    //     '/api': 'http://localhost:3010/',
-    //     '/':    'http://localhost:8010/'
-    //   }
-    // }
   },
   corsAllowedOrigins: [/^http:\/\/localhost:\d+$/]
 };

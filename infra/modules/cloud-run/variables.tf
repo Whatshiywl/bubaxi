@@ -1,5 +1,3 @@
-
-
 variable "project_id"     { type = string }
 variable "region"         { type = string }
 variable "app_name"       { type = string }
@@ -19,6 +17,12 @@ variable "map_domain" {
 variable "domain_prefix" {
   type = string
   default = ""
+}
+
+variable "env_vars" {
+  type        = map(string)
+  description = "Environment variables for the container"
+  default     = {}
 }
 
 locals {
