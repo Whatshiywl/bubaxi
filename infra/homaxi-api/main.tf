@@ -4,7 +4,6 @@ module "cloud_run" {
   app_name        = var.app_name
   region          = var.region
   build_dir       = var.build_dir
-  service_name    = "${var.app_name}-dev"
   providers = {
     cloudflare = cloudflare
   }
