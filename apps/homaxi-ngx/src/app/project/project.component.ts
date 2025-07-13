@@ -1,11 +1,5 @@
 import { Component, Input } from "@angular/core";
-
-export interface Project {
-  name: string,
-  href: string,
-  img?: string,
-  description?: string
-}
+import { Project } from "./project.interface";
 
 @Component({
   standalone: false,
@@ -18,6 +12,8 @@ export class ProjectComponent {
 
   onProjectClick() {
     console.log(this.project);
-    window.open(this.project.href, '_self');
+    if (this.project.href) {
+      window.location.href = this.project.href;
+    }
   }
 }

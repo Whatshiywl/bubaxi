@@ -2,13 +2,31 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+import { comingSoonProject } from "../app/project/project.interface";
+
 export const environment = {
   production: false,
   firebase: {
     apiKey: 'AIzaSyCmrs57dyGhpzeuI_RtYmMm2DScQGHf4lM',
     authDomain: 'bubaxi.firebaseapp.com',
     projectId: 'bubaxi',
-  }
+  },
+  projects: [
+    {
+      name: 'Quinto Zap',
+      href: 'http://localhost:8020',
+      img: '/assets/quintozap.jpg'
+    },
+    {
+      name: 'SRE',
+      href: 'http://localhost:8030',
+      img: '/assets/sre.jpg'
+    },
+    comingSoonProject,
+    comingSoonProject,
+    comingSoonProject,
+    comingSoonProject
+  ]
 };
 
 /*

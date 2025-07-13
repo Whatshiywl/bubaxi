@@ -1,12 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Project } from './project/project.component';
 import { GatewayHttpClient, HomaxiHttpClient } from '@bubaxi/gateway-http';
-
-const comingSoon: Project = {
-  name: 'Coming Soon',
-  href: '/',
-  img: '/assets/comingsoon.jpg'
-};
+import { Project } from './project/project.interface';
+import { environment } from '../environments/environment';
 
 @Component({
   standalone: false,
@@ -21,27 +16,14 @@ const comingSoon: Project = {
 export class AppComponent implements OnInit {
   gridCols = 1;
 
-  projects: Project[] = [
-    {
-      name: 'Quinto Zap',
-      href: '/quintozap',
-      img: '/assets/quintozap.jpg'
-    },
-    {
-      name: 'SRE',
-      href: '/sre',
-      img: '/assets/sre.jpg'
-    },
-    comingSoon,
-    comingSoon,
-    comingSoon,
-    comingSoon
-  ];
+  readonly projects: Project[];
 
   constructor(
     private gatewayClient: GatewayHttpClient,
     private homaxiClient: HomaxiHttpClient
-  ) {}
+  ) {
+    this.projects = environment.projects;
+  }
 
   ngOnInit() {
     this.gatewayClient.getHello().subscribe(console.log);
