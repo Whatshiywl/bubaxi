@@ -1,15 +1,33 @@
 import fetch from 'node-fetch';
-import { Router } from 'express';
+import { Router, Request } from 'express';
 const router = Router();
 
-router.get('/:id', (req, res) => {
+router.get('/listings/:id', (req, res) => {
+  getListingHandler(req)
+    .then(data => res.json(data))
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    });
+});
+
+router.post('/listings', (req, res) => {
+  getListingsHandler(req)
+    .then(data => res.json(data))
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    });
+});
+
+async function getListingHandler(req: Request) {
   const id = req.params?.id;
   if (!id) {
-    return res.status(400).send('No ID parameter provided');
+    throw new Error('No ID parameter provided');
   }
   const quintoZap = 'https://www.quintoandar.com.br/imovel';
-
-  fetch(`${quintoZap}/${id}`, {
+  const url = `${quintoZap}/${id}`;
+  const options = {
     "headers": {
       "sec-ch-ua": "\"Chromium\";v=\"92\", \" Not A;Brand\";v=\"99\", \"Google Chrome\";v=\"92\"",
       "sec-ch-ua-mobile": "?0",
@@ -19,26 +37,27 @@ router.get('/:id', (req, res) => {
     "body": null,
     "method": "GET",
     // "mode": "cors"
-  })
-  .then(result => result.text())
-  .then(data => {
-    const [ , firstPublicationDate ] = data.match(/firstPublicationDate:\s?"([^"]*)"/) || [ ];
-    const [ , lastPublicationDate ] = data.match(/lastPublishedDate:\s?"([^"]*)"/) || [ ];
-    const response = {
-      firstPublicationDate,
-      lastPublicationDate
-    };
-    res.json(response);
-  })
-  .catch(err => console.error(err));
-});
+  };
+  const result = await fetch(url, options);
+  if (result.status !== 200) {
+    throw new Error(`Failed to fetch quintoandar listing: ${result.status} ${result.statusText}`);
+  }
+  const data = await result.text();
+  const [ , firstPublicationDate ] = data.match(/firstPublicationDate:\s?"([^"]*)"/) || [ ];
+  const [ , lastPublicationDate ] = data.match(/lastPublishedDate:\s?"([^"]*)"/) || [ ];
+  const response = {
+    firstPublicationDate,
+    lastPublicationDate
+  };
+  return response;
+}
 
-router.post('/', (req, res) => {
+async function getListingsHandler(req: Request) {
   const body = getBody(req.body);
   const bodyString = toBodyString(body);
   const quintoZap = 'https://www.quintoandar.com.br/api/yellow-pages/v2/search';
 
-  fetch(quintoZap, {
+  const options = {
     "headers": {
       "accept": "application/pclick_sale.v0+json",
       "content-type": "text/plain;charset=UTF-8",
@@ -53,11 +72,15 @@ router.post('/', (req, res) => {
     "body": bodyString,
     "method": "POST",
     // "mode": "cors"
-  })
-  .then(result => result.json())
-  .then(data => res.json(data))
-  .catch(err => console.error(err));
-});
+  };
+
+  const result = await fetch(quintoZap, options);
+  if (result.status !== 200) {
+    throw new Error(`Failed to fetch quintoandar listings: ${result.status} ${result.statusText}`);
+  }
+  const data = await result.json();
+  return data;
+}
 
 function getBody(filter) {
   const {

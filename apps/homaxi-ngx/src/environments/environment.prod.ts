@@ -10,12 +10,12 @@ export const environment = {
   projects: [
     {
       name: 'Quinto Zap',
-      href: 'quintozap.bubaxi.com',
+      href: 'https://quintozap.bubaxi.com',
       img: '/assets/quintozap.jpg'
     },
     {
       name: 'SRE',
-      href: 'sre.bubaxi.com',
+      href: 'https://sre.bubaxi.com',
       img: '/assets/sre.jpg'
     },
     comingSoonProject,

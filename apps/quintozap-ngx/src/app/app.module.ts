@@ -23,6 +23,7 @@ import { InfoComponent } from './info/info.component';
 import { StorageService } from './storage.service';
 import { AuthModule } from '@bubaxi/auth';
 import { PreferencesService } from './preferences.service';
+import { QuintozapHttpClient } from '@bubaxi/gateway-http';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { PreferencesService } from './preferences.service';
     ZapService,
     QuintoService,
     StorageService,
-    PreferencesService
+    PreferencesService,
+    QuintozapHttpClient
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]

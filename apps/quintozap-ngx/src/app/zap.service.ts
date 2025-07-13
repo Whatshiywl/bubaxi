@@ -1,118 +1,19 @@
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Subject } from "rxjs";
 import { first, map, takeWhile } from "rxjs/operators";
 import { Filter } from "./app.component";
 import { CommonListing, ListingOrigin, ListingResult } from "./info/info.component";
-import { StorageService } from "./storage.service";
-
-export interface ZapAddress {
-  city: string,
-  neighborhood: string,
-  state: string,
-  street: string,
-  streetNumber?: string,
-  zone: string
-}
-
-export interface ZapLink {
-  data: ZapAddress,
-  href: string,
-  name: string,
-  rel: string
-}
-
-export interface ZapListingMetadata {
-  acceptExchange: boolean,
-  address: ZapAddress & {
-    compliment: string,
-    confidence: string,
-    country: string,
-    district: string,
-    geoJson: string,
-    ibgeCityId: string,
-    level: string,
-    locationId: string,
-    name: string,
-    point: { lat: number, lon: number, source: string },
-    poisList: string[],
-    precision: string,
-    source: string,
-    stateAcronym: string,
-    zipCode: string,
-  },
-  advertisersContact: { phones: string[], advertiserId: string },
-  amenities: string[],
-  bathrooms: number[],
-  bedrooms: number[],
-  buildings: number,
-  constructionStatus: string,
-  createdAt: string,
-  description: string,
-  displayAddressType: string,
-  externalId: string,
-  id: string,
-  legacyId: string,
-  listingType: string,
-  nonActiveReason: string,
-  parkingSpaces: string[],
-  portal: string,
-  pricingInfos: {
-    businessType: string,
-    monthlyCondoFee: string,
-    price: string,
-    rentalInfo: {
-      monthlyRentalTotalPrice: string,
-      period: string,
-    },
-    yearlyIptu: string
-  }[],
-  propertyType: string,
-  providerId: string,
-  publicationType: string,
-  resale: boolean,
-  showPrice: boolean,
-  status: string,
-  suites: number[],
-  title: string,
-  totalAreas: string[],
-  unitFloor: number,
-  unitTypes: string[],
-  unitsOnTheFloor: number,
-  updatedAt: string,
-  usableAreas: string[],
-  usageTypes: string[],
-  whatsappNumber: string,
-}
-
-export interface ZapListing {
-  account: {
-    id: string,
-    legacyVivarealId: number,
-    legacyZapId: number,
-    licenseNumber: string,
-    logoUrl: string,
-    name: string,
-    showAddress: boolean
-  },
-  accountLink: ZapLink,
-  link: ZapLink,
-  listing: ZapListingMetadata,
-  medias: {
-    type: string,
-    url: string
-  }[]
-}
+import { ZapListing } from "@bubaxi/api-types";
+import { QuintozapHttpClient } from "@bubaxi/gateway-http";
 
 @Injectable()
 export class ZapService {
-  private zapApi = `api/zap`;
   readonly listings$: Subject<ListingResult> = new Subject<ListingResult>();
   private origin: ListingOrigin = 'zap';
 
   constructor(
-    private client: HttpClient,
-    private storageService: StorageService
+    private quintozapClient: QuintozapHttpClient
   ) { }
 
   filter(zapFilter: Filter) {
@@ -150,14 +51,7 @@ export class ZapService {
   }
 
   private getFromApi(zapFilter: Filter) {
-    const path = `${this.zapApi}`;
-    return this.client.get<{
-      search: {
-        result: { listings: ZapListing[], totalCount: number }
-      }
-    }>(path, {
-      params: this.getParams(zapFilter)
-    })
+    return this.quintozapClient.getZapListings(this.getParams(zapFilter))
     .pipe(
       map(data => {
         return data.search.result.listings;

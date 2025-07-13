@@ -3,19 +3,12 @@ export const environment = {
   proxy: {
     '/vjrnb': {
       paths: {
-        '/api': 'http://localhost:3100/',
-        '/':    'http://localhost:8100/'
-      }
-    },
-    '/sre': {
-      paths: {
-        '/':    'http://localhost:8030/'
+        '/':    'http://localhost:3100/'
       }
     },
     '/quintozap': {
       paths: {
-        '/api': 'http://localhost:3020/',
-        '/':    'http://localhost:8020/'
+        '/':    'http://localhost:3020/'
       }
     },
     '/homaxi': {

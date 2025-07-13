@@ -1,8 +1,17 @@
 import fetch from 'node-fetch';
-import { Router } from 'express';
+import { Router, Request } from 'express';
 const router = Router();
 
-router.get('/', (req, res) => {
+router.get('/listings', (req, res) => {
+  zapListingsHandler(req)
+    .then(data => res.json(data))
+    .catch(err => {
+      console.error(err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    });
+});
+
+async function zapListingsHandler(req: Request) {
   const params = getParams(req.query);
   const paramsString = toQueryString(params);
   const zapPath = 'https://glue-api.zapimoveis.com.br/v2/listings';
@@ -17,11 +26,13 @@ router.get('/', (req, res) => {
     // "mode": "cors"
   };
 
-  fetch(url, options)
-  .then(result => result.json())
-  .then(data => res.json(data))
-  .catch(err => console.error(err));
-});
+  const result = await fetch(url, options);
+  if (result.status !== 200) {
+    throw new Error(`Failed to fetch zap listings: ${result.status} ${result.statusText}`);
+  }
+  const data = await result.json();
+  return data;
+}
 
 function getParams(filter) {
   const {

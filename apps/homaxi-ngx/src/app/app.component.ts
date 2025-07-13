@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, isDevMode, OnInit } from '@angular/core';
 import { GatewayHttpClient, HomaxiHttpClient } from '@bubaxi/gateway-http';
 import { Project } from './project/project.interface';
 import { environment } from '../environments/environment';
@@ -40,5 +40,9 @@ export class AppComponent implements OnInit {
     if (width < 700) return 1;
     if (width < 1200) return 2;
     return 3;
+  }
+
+  get homeLink() {
+    return isDevMode() ? 'http://localhost:8010' : 'https://bubaxi.com';
   }
 }

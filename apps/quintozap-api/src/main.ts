@@ -7,21 +7,15 @@ if (environment.production) {
 import * as express from 'express';
 import zapRouter from './app/zap.router';
 import quintoRouter from './app/quinto.router';
+import rootRouter from './app/root.router';
 
 const app = express();
 
 app.use(express.json());
 
-app.get('/api', (req, res) => {
-  res.send({ message: 'Welcome to quintozap-api!' });
-});
-
-app.get('/api/googlemapsapikey', (_, res) => {
-  res.send(process.env.MAPS_API_KEY || '');
-});
-
-app.use('/api/zap', zapRouter);
-app.use('/api/quinto', quintoRouter);
+app.use('/zap', zapRouter);
+app.use('/quinto', quintoRouter);
+app.use('/', rootRouter);
 
 const port = process.env.PORT || 3020;
 const server = app.listen(port, () => {

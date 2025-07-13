@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, isDevMode } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { merge, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { debounceTime, map } from 'rxjs/operators';
 import { PreferencesService } from './preferences.service';
 import { CommonListing, InfoComponent, ListingResult } from './info/info.component';
 import { QuintoService } from './quinto.service';
@@ -80,7 +80,10 @@ export class AppComponent {
       this.zapService.listings$,
       this.quintoService.listings$
     )
-    .pipe(map(this.filterByPrice.bind(this)))
+    .pipe(
+      debounceTime(10000),
+      map(this.filterByPrice.bind(this))
+    )
     .subscribe(({ origin, results, filter }) => {
       if (results.length) {
         console.log('listings', origin, results);
@@ -92,7 +95,7 @@ export class AppComponent {
         setTimeout(() => {
           const service = origin === 'zap' ? this.zapService : this.quintoService;
           service.filter(filter);
-        }, 1000);
+        }, 10000);
       }
     });
   }
@@ -136,5 +139,9 @@ export class AppComponent {
   onToggleHideSeen() {
     this.hideSeen = !this.hideSeen;
     this.preferences.save('hideSeen', this.hideSeen);
+  }
+
+  get homeLink() {
+    return isDevMode() ? 'http://localhost:8010' : 'https://bubaxi.com';
   }
 }

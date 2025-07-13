@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, isDevMode } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -14,6 +14,10 @@ export class AppComponent {
     public router: Router
   ) {
 
+  }
+
+  get homeLink() {
+    return isDevMode() ? 'http://localhost:8010' : 'https://bubaxi.com';
   }
 
 }

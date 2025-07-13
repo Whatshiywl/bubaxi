@@ -1,67 +1,11 @@
-import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Subject } from "rxjs";
 import { first, map, takeWhile } from "rxjs/operators";
 import { Filter } from "./app.component";
 import { CommonListing, ListingOrigin, ListingResult } from "./info/info.component";
 import { StorageService } from "./storage.service";
-
-export interface QuintoHitMetadata {
-  address: string,
-  area: number,
-  bedrooms: number,
-  city: string,
-  coverImage: string,
-  forRent: boolean,
-  forSale: boolean,
-  id: number,
-  imageCaptionList: string[],
-  imageList: string[],
-  iptuPlusCondominium: number,
-  neighbourhood: string,
-  parkingSpaces: number,
-  regionName: string,
-  rent: number,
-  salePrice: number,
-  totalCost: number,
-  type: string,
-  visitStatus: string,
-  location: {
-    lat: number,
-    lon: number
-  }
-}
-
-export interface QuintoHit {
-  _id: string,
-  _index: string,
-  _score: number,
-  _source: QuintoHitMetadata,
-  _type: string,
-  link?: string
-}
-
-export interface QuintoHits {
-  hits: QuintoHit[],
-  max_score: number,
-  total: {
-    value: number,
-    relation: string
-  }
-}
-
-export interface QuintoResult {
-  hits: QuintoHits,
-  search_id: string,
-  timed_out: boolean,
-  took: number,
-  _shards: {
-    total: number,
-    successful: number,
-    skipped: number,
-    failed: number
-  }
-}
+import { QuintozapHttpClient } from "@bubaxi/gateway-http";
+import { QuintoHit } from "@bubaxi/api-types";
 
 @Injectable()
 export class QuintoService {
@@ -70,7 +14,7 @@ export class QuintoService {
   private origin: ListingOrigin = 'quinto'
 
   constructor(
-    private client: HttpClient,
+    private quintozapClient: QuintozapHttpClient,
     private storageService: StorageService
   ) { }
 
@@ -107,18 +51,15 @@ export class QuintoService {
 
   getListing(id: string) {
     const path = `${this.quintoApi}/${id}`;
-    return this.client.get<{
-      firstPublicationDate: string,
-      lastPublicationDate: string
-    }>(path)
-    .pipe(
-      first()
-    );
+    return this.quintozapClient.getQuintoandarListing(id)
+      .pipe(
+        first()
+      );
   }
 
   private getFromApi(quintoFilter: Filter) {
     const path = `${this.quintoApi}`;
-    return this.client.post<QuintoResult>(path, this.getBody(quintoFilter))
+    return this.quintozapClient.getQuintoandarListings(this.getBody(quintoFilter))
     .pipe(
       map(data => {
         return data.hits.hits;

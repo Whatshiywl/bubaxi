@@ -6,12 +6,14 @@ import { GoogleMap } from "@angular/google-maps";
 import { CommonListing } from "../info/info.component";
 import { ListingOptions } from "../listings/listings.component";
 import { PreferencesService } from "../preferences.service";
+import { QuintozapHttpClient } from "@bubaxi/gateway-http";
 
 @Component({
   standalone: false,
   selector: 'bubaxi-quintozap-map',
   templateUrl: './map.component.html',
-  styleUrls: ['./map.component.scss']
+  styleUrls: ['./map.component.scss'],
+  providers: [QuintozapHttpClient]
 })
 export class MapComponent implements OnChanges {
   @Input() listings!: CommonListing[];
@@ -43,12 +45,12 @@ export class MapComponent implements OnChanges {
   };
 
   constructor(
-    httpClient: HttpClient,
+    private httpClient: HttpClient,
+    private quintozapClient: QuintozapHttpClient,
     private preferences: PreferencesService
   ) {
-    const mapsKeyApi = `api/googlemapsapikey`;
-    httpClient.get(`${mapsKeyApi}`, { responseType: 'text' }).subscribe(key => {
-      this.apiLoaded = httpClient.jsonp(`https://maps.googleapis.com/maps/api/js?key=${key}`, 'callback')
+    this.quintozapClient.getGoogleMapsApiKey().subscribe(({ apiKey }) => {
+      this.apiLoaded = this.httpClient.jsonp(`https://maps.googleapis.com/maps/api/js?key=${apiKey}`, 'callback')
         .pipe(
           map(() => true),
           catchError(() => of(false)),
