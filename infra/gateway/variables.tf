@@ -3,6 +3,11 @@ variable "region"         { type = string }
 variable "app_name"       { type = string }
 variable "build_dir"      { type = string }
 variable "cloudflare_api_token" { type = string }
+variable "env_vars" {
+  type        = string
+  description = "Environment variables as JSON string"
+  default     = "{}"
+}
 
 data "external" "api_services" {
   program = ["sh", "-c", <<-EOF
@@ -29,4 +34,5 @@ locals {
     # Pass the discovered API services to the gateway
     EXPECTED_API_SERVICES = local.expected_api_services
   }
+  parsed_env_vars = jsondecode(var.env_vars)
 }

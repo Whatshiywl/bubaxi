@@ -32,6 +32,7 @@ inputs:
 runs:
   using: 'composite'
   steps:
+
     - uses: google-github-actions/auth@v2
       with:
         credentials_json: ${{ inputs.gcp_sa_key }}
@@ -60,6 +61,13 @@ runs:
       working-directory: infra/${{ inputs.nx_project }}
       shell: bash
       run: |
+        # Source the environment file if it exists
+        if [ -f ../../.env ]; then
+          set -a  # automatically export all variables
+          source ../../.env
+          set +a
+        fi
+
         terraform plan \
           -var="project_id=${{ inputs.gcp_project_id }}" \
           -var="region=${{ inputs.gcp_region }}" \
@@ -73,6 +81,13 @@ runs:
       working-directory: infra/${{ inputs.nx_project }}
       shell: bash
       run: |
+        # Source the environment file if it exists
+        if [ -f ../../.env ]; then
+          set -a  # automatically export all variables
+          source ../../.env
+          set +a
+        fi
+
         terraform apply -auto-approve tfplan
       env:
         TF_VAR_cloudflare_api_token: ${{ inputs.cloudflare_api_token }}

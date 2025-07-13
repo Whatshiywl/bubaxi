@@ -3,3 +3,12 @@ variable "region"         { type = string }
 variable "app_name"       { type = string }
 variable "build_dir"      { type = string }
 variable "cloudflare_api_token" { type = string }
+variable "env_vars" {
+  type        = string
+  description = "Environment variables as JSON string"
+  default     = "{}"
+}
+
+locals {
+  parsed_env_vars = jsondecode(var.env_vars)
+}

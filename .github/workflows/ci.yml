@@ -76,6 +76,13 @@ jobs:
           sparse-checkout: |
             .github
             infra
+      - name: Extract environment variables
+        env:
+          PROJECT_NAME: ${{ matrix.project }}
+          ALL_VARS_JSON: ${{ toJson(vars) }}
+          ALL_SECRETS_JSON: ${{ toJson(secrets) }}
+        run: |
+          node ./.github/scripts/extract-variables.js
       - name: Download build artifact
         if: ${{ !cancelled() && (hashFiles(format('infra/{0}/**', matrix.project)) != '') }}
         uses: actions/download-artifact@v4

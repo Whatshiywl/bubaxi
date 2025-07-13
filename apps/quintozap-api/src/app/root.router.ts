@@ -17,7 +17,7 @@ function helloHandler(): QuintozapHelloResponse {
 }
 
 function googleMapsApiKeyHandler(): QuintozapGoogleMapsApiKeyResponse {
-  return { apiKey: process.env.MAPS_API_KEY || '' };
+  return { apiKey: process.env.GOOGLE_MAPS_API_KEY || '' };
 }
 
 export default router;
